@@ -22,8 +22,8 @@ public class ColumnCategoryController {
 
         example e = new example("10001","sad");
 
-        mongoTemplate.save(e,"user");
-        System.out.println("mongoDB插入数据成功,集合为user,文档为："+mongoTemplate.getCollection("user"));
-        return "hello world!　烦人的世界, 热更新测试";
+//        mongoTemplate.save(e,"user");
+//        System.out.println("mongoDB插入数据成功,集合为user,文档为："+mongoTemplate.getCollection("user"));
+       return "hello world!　烦人的世界, 热更新测试";
     }
 }
