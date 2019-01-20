@@ -7,7 +7,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import java.util.ArrayList;
 
 
-@Document(collection = "user")  //写死没关系吧
+@Document(collection = "user")  //写死没关系吧,先写死，后面再写统一的配置文件
 public class User {
     @Id
     @Indexed
@@ -16,6 +16,10 @@ public class User {
     private String telnum;
     private ArrayList<String> ordernumber;//订单编号队列
 
+    public User(){
+
+    }
+    //无参构造器，适用于实例化接受类
     public User(String id, String realname, String telnum, ArrayList<String> ordernumber) {
         this.id = id;
         this.realname = realname;
