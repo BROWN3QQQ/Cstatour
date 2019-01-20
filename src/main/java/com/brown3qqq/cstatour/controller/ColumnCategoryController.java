@@ -1,18 +1,23 @@
 package com.brown3qqq.cstatour.controller;
 
 
+<<<<<<< HEAD
 import com.alibaba.fastjson.JSONObject;
 import com.brown3qqq.cstatour.pojo.example;
+=======
+>>>>>>> temp
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
-import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+<<<<<<< HEAD
 import java.util.Arrays;
 import java.util.List;
 
+=======
+>>>>>>> temp
 @RestController
 public class ColumnCategoryController {
 

@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title>上传用例</title>
+    <meta content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no' name='viewport'>
+    <script type="text/javascript">
+        /**
+         * 根据base64 内容 取得 bolb
+         *
+         * @param dataURI
+         * @returns Blob
+         */
+        function getBlobBydataURI(dataURI,type) {
+            var binary = atob(dataURI.split(',')[1]);
+            var array = [];
+            for(var i = 0; i < binary.length; i++) {
+                array.push(binary.charCodeAt(i));
+            }
+            return new Blob([new Uint8Array(array)], {type:type });
+
+        }
+        /**
+         * 上传
+         */
+        function upload(){
+            //base64 转 blob
+            var $Blob= getBlobBydataURI(document.getElementsByTagName("img")[0].currentSrc,'image/jpeg');
+            var formData = new FormData();
+            formData.append("file", $Blob ,"file_"+Date.parse(new Date())+".jpeg");
+            //组建XMLHttpRequest 上传文件
+            var request = new XMLHttpRequest();
+            //上传连接地址
+            request.open("POST", "/testcontoller");
+            request.onreadystatechange=function()
+            {
+                if (request.readyState==4)
+                {
+                    if(request.status==200){
+                        console.log("上传成功");
+                    }else{
+                        console.log("上传失败,检查上传地址是否正确");
+                    }
+                }
+            }
+            request.send(formData);
+        }
+    </script>
+</head>
+<body>
+<button onclick="upload()">上传测试</button>
+<br />
+上传的图片:
+<img src="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEAeAB4AAD/4QAiRXhpZgAATU0AKgAAAAgAAQESAAMAAAABAAEAAAAAAAD/2wBDABsSFBcUERsXFhceHBsgKEIrKCUlKFE6PTBCYFVlZF9VXVtqeJmBanGQc1tdhbWGkJ6jq62rZ4C8ybqmx5moq6T/wAALCABQADEBAREA/8QAGgAAAwADAQAAAAAAAAAAAAAAAwQFAAECBv/EADQQAAIBAwMCAgcGBwAAAAAAAAECAwAEEQUSITFBE1EVImFxgaHwBiMykbHRFEJDcoKiwf/aAAgBAQAAPwD0tc5AGc1MuftBYW7FfEMrDtGM/Ohp9pbNmUNHOgbo7qAP1p60vra8z4E6uR1HcfCmVrKHc3EdrBJNI2FUZNSIreXWR41w7xW38kSnBYebe/686o2ljaWwPgQxqemRyT8aO8UTqVeJWHkQKlzaHDuaS0Y28/VSh9X3EeX17KNpWoPc+Lb3KBLiDhwOhHmKo5qPqY9Iajb6eM+Go8aX2jsK71dmhW2tIcxrcSCNivUKeuKnw2mnyXc1rbJcRzxAnxd/UijwajdXkVlbrIqSXCsXkA5wCRx7eDQ7i4i024KxXV3PMuGKytlD8vLP5UfUHCXunaimVEuEYDqQeRVmpthg61qjHqPDH+p/anL+0F1Eu1gskbB42Izhh0pA2mqSho3a1h38PLGvrMK3Ppj24tpbHBktl2hWON47/Hmg3FnPduxbThbyyDa0xlDBR34HsouvRCLSIYlOdjoo+FP+tU6+b0Zq63pH3E6iOU4/Cex+VWI5FkUMrAg9CO9BvEnlgZLaURy54YjOKniy1sHPpKM/4D9qqqWCgOctgZ46mpN4w1HWLe1TlLY+LIfb2FWKHPBHcxtHKgZWGCCKi2y3FnqbWdlJ40CgM6yf0xnoD9frV+sqPrt1eWsG6EbIzgNL3XnsPr/tOaXZQWduFhbfv9ZnPVj503trrApeG0hgllkiTa0xzIck5P0TTGKzFDmhjnieKRdyOMMOmayGJIYkijXaqDCjOcCi1ql5ruGGQRt4hcjdhI2fj4A1w2oQqMsJ1Hm1vIB+eKJLdRQuElbYCMh24X3Z86WXWLJtv3yDchfl14x2PPWmra4juYEmiIKsM9c49nvo9aqXdyPHf+LGWXbHsObeSQdc8YwPnS5vnvrdgk6uN2DttJOx8wTinJ3dZFmhuCrSIQscqHacc5x1HGaQWYiaFI2UoYWCsLSX8ORwBu5B8/3qrpxJs4zuRlx6hQEAr24PNN1qlXhlnkKykCDPCLzv/uPl7Pn2ocVm8UZKSBJd7MGAyCCxIBHfrW/4eaa4Es2xQIigCknDE8noOwFci0mjeAwyIPCgMW5lJycr2yPI96ZtIBbWscAbdsUDPnR6/9k=" />
+</body>
+</html>
