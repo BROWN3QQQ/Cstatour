@@ -12,6 +12,7 @@ public class User {
     @Id
     @Indexed
     private String id;
+    private String passwd;
     private String realname;
     private String telnum;
     private ArrayList<String> ordernumber;//订单编号队列
@@ -20,11 +21,20 @@ public class User {
 
     }
     //无参构造器，适用于实例化接受类
-    public User(String id, String realname, String telnum, ArrayList<String> ordernumber) {
+    public User(String id, String realname, String telnum,String passwd, ArrayList<String> ordernumber) {
         this.id = id;
         this.realname = realname;
         this.telnum = telnum;
+        this.passwd = passwd;
         this.ordernumber = ordernumber;
+    }
+
+    public String getPasswd() {
+        return passwd;
+    }
+
+    public void setPasswd(String passwd) {
+        this.passwd = passwd;
     }
 
     public String getId() {

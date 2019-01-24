@@ -4,8 +4,7 @@ import java.util.ArrayList;
 
 public class Kind {
 
-<<<<<<< HEAD
-=======
+
     private String id;
     private String totalkindname;
 
@@ -16,6 +15,6 @@ public class Kind {
 
 
 
->>>>>>> temp
+
 
 }
