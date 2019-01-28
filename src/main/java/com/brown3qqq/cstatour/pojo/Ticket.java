@@ -1,7 +1,9 @@
 package com.brown3qqq.cstatour.pojo;
 
-import java.util.Date;
+import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.util.Date;
+@Document(collection = "ticket")
 public class Ticket {
     private String id;
     private Date expired;

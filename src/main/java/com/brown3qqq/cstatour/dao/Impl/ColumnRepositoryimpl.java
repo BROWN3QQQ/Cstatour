@@ -1,8 +1,8 @@
 package com.brown3qqq.cstatour.dao.Impl;
 
-import com.brown3qqq.cstatour.dao.UserCustomerRepository;
-import com.brown3qqq.cstatour.dao.UserRepository;
-import com.brown3qqq.cstatour.pojo.User;
+import com.brown3qqq.cstatour.dao.ColumnCustomerRepository;
+import com.brown3qqq.cstatour.pojo.Column;
+import com.brown3qqq.cstatour.pojo.Ticket;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
@@ -13,27 +13,24 @@ import java.util.Iterator;
 import java.util.List;
 
 @Repository
-public class UserRepositoryimpl implements UserCustomerRepository {
+public class ColumnRepositoryimpl implements ColumnCustomerRepository {
 
     @Autowired
     protected MongoTemplate mongoTemplate;
 
     @Override
-    public User getUser(String name) {
-
+    public Column get(String columnname) {
         try {
-            Query query = new Query(Criteria.where("realname").is(name));
-            List<User> userlist = mongoTemplate.find(query,User.class,"user");
-            Iterator<User> it = userlist.iterator();
-            User user = it.next();
+            Query query = new Query(Criteria.where("column").is(columnname));
+            List<Column> userlist = mongoTemplate.find(query,Column.class,"column");
+            Iterator<Column> it = userlist.iterator();
+            Column column = it.next();
 
-            return user;
+            return column;
         }catch (Exception e){
 
         }
 
         return null;
     }
-
-
 }

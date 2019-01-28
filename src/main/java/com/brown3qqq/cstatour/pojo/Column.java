@@ -1,7 +1,16 @@
 package com.brown3qqq.cstatour.pojo;
 
 
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.Indexed;
+import org.springframework.data.mongodb.core.mapping.Document;
+
+import java.util.ArrayList;
+
+@Document(collection = "column")
 public class Column {
+    @Id
+    @Indexed
     private String id;
     private String CNname;
     private String ENname;
@@ -11,9 +20,10 @@ public class Column {
     /*区别是否是母导航，若果状态是true，为母导航，false为子导航*/
     private boolean state;
 
-    /*若果是母导航，它的MotherColumn只能是主栏目，如果是子导航,它的MotherColumn是CNname或者ENname*/
+    /*若果是母导航，它的MotherColumn只能是主栏目，如果是子导航,它的MotherColumn的id*/
     private String MotherColumn;
 
+    private ArrayList<Column> son;//若是母导航栏，则list里存着所有儿子对象
     //序列
     private int sequence;
 
@@ -23,6 +33,39 @@ public class Column {
     private boolean topnav;
     //栏目介绍
     private String ColumnContent;
+
+    public ArrayList<Column> getSon() {
+        return son;
+    }
+
+    public void setSon(ArrayList<Column> son) {
+        this.son = son;
+    }
+
+    public Column(){}
+
+    public Column(String id, String CNname, String ENname, boolean state, String motherColumn, ArrayList<Column> son, int sequence, boolean topnav, String columnContent) {
+        this.id = id;
+        this.CNname = CNname;
+        this.ENname = ENname;
+        this.state = state;
+        MotherColumn = motherColumn;
+        this.son = son;
+        this.sequence = sequence;
+        this.topnav = topnav;
+        ColumnContent = columnContent;
+    }
+
+    public Column(String CNname, String ENname, boolean state, String motherColumn, ArrayList<Column> son,int sequence, boolean topnav, String columnContent) {
+        this.CNname = CNname;
+        this.ENname = ENname;
+        this.state = state;
+        MotherColumn = motherColumn;
+        this.son = son;
+        this.sequence = sequence;
+        this.topnav = topnav;
+        ColumnContent = columnContent;
+    }
 
     public Column(String id, String CNname, String ENname, boolean state, String motherColumn, int sequence, boolean topnav, String columnContent) {
         this.id = id;
