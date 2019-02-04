@@ -1,9 +1,11 @@
 package com.brown3qqq.cstatour.service;
 
 import com.alibaba.fastjson.JSONObject;
-import com.brown3qqq.cstatour.dao.ColumnCustomerRepository;
+import com.brown3qqq.cstatour.dao.ArticleRepository;
 import com.brown3qqq.cstatour.dao.ColumnRepository;
+import com.brown3qqq.cstatour.dao.Impl.ArticleRepositoryimpl;
 import com.brown3qqq.cstatour.dao.Impl.ColumnRepositoryimpl;
+import com.brown3qqq.cstatour.pojo.Article;
 import com.brown3qqq.cstatour.pojo.Column;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,72 +17,45 @@ import java.util.Iterator;
 import java.util.Map;
 
 @Service
-public class columnService {
+public class articleService {
+
+    @Autowired
+    ArticleRepository articleRepository;
+    @Autowired
+    ArticleRepositoryimpl articleRepositoryimpl;
 
     @Autowired
     ColumnRepository columnRepository;
-
     @Autowired
     ColumnRepositoryimpl columnRepositoryimpl;
 
-    //添加新栏目
-    public Map<String,String > add(String cnname, String enname, boolean state,String mothercolumn,int sequence,boolean topnav,String columncontent){
-        //这样设置参数的原因，是我认为这样能降低耦合
+    //添加新文章
+    public Map<String,String > add(JSONObject jsonObject){
+
         Map<String,String> map = new HashMap<String, String >();
 
         //过滤字段是否为空
-        if(StringUtils.isEmpty(cnname) || StringUtils.isEmpty(enname)){
-            map.put("msg", "栏目名不能为空");
+        if(StringUtils.isEmpty(jsonObject.getString("name")) ){
+            map.put("msg", "标题名不能为空");
             return map;
         }
-        if (state){
-            Column column = columnRepositoryimpl.get(cnname);
 
-            if (column != null){
-                map.put("msg","栏目已存在");
-                return map;
+        Article article = articleRepositoryimpl.get(jsonObject.getString("name"));
 
-            }
-            ArrayList<Column> son = new ArrayList();
-            Column newcolumn = new Column(cnname,enname,state,mothercolumn,son,sequence,topnav,columncontent);
-
-            columnRepository.save(newcolumn);
-            map.put("state","成功");
-            map.put("msg","添加栏目成功");
-
+        if (article != null){
+            map.put("msg","该文章已存在");
             return map;
-
-        }else{
-
-            Column column = columnRepository.findById(mothercolumn).get();
-
-            if (column == null){
-                map.put("msg"," 母导航栏目不存在");
-                return map;
-
-            }
-            ArrayList<Column> son = new ArrayList();
-//          String id = new String();
-
-            // 这样写是错的，应该有一个自增唯一id，要不然文章该找不到了
-            int id = column.getSon().size() + 1;
-            String ID = "";
-            ID = id + "";
-
-            Column newcolumn = new Column(ID,cnname,enname,state,mothercolumn,son,sequence,topnav,columncontent);
-            column.getSon().add(newcolumn);
-
-            columnRepository.save(column);
-            map.put("state","成功");
-            map.put("msg","添加子栏目成功");
-
-            return map;
-
         }
+
+
+
+        Article newarticle = new Article(jsonObject.getString("name"),);
+
+
+            return map;
 
     }
-
-    //更新栏目内容
+    //更新文章内容
     public Map<String,String > update(String id,String cnname, String enname, boolean state,String mothercolumn,int sequence,boolean topnav,String columncontent){
 
         Map<String,String> map = new HashMap<String, String >();
@@ -147,7 +122,7 @@ public class columnService {
         return map;
     }
 
-    //删除栏目内容
+    //删除文章
     public Map<String,String > delete(String id,boolean state,String mothercolumn){
 
         Map<String,String> map = new HashMap<String, String >();
@@ -193,10 +168,10 @@ public class columnService {
 
 
         }
-    return map;
+        return map;
     }
 
-    //获取column库里所有栏目
+    //获取article库里所有栏目
     public JSONObject getallcolumn(){
 
         JSONObject jsonObject = new JSONObject();
@@ -215,4 +190,13 @@ public class columnService {
 
         return jsonObject;
     }
+
 }
+
+
+
+
+
+
+
+
