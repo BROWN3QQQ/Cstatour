@@ -19,15 +19,7 @@ import java.util.Map;
 
 public class kindService {
 
-    @Autowired
-    ArticleRepository articleRepository;
-    @Autowired
-    ArticleRepositoryimpl articleRepositoryimpl;
 
-    @Autowired
-    ColumnRepository columnRepository;
-    @Autowired
-    ColumnRepositoryimpl columnRepositoryimpl;
     @Autowired
     KindRepository kindRepository;
     //添加新类别
@@ -37,49 +29,27 @@ public class kindService {
 
         //过滤字段是否为空
         if(StringUtils.isEmpty(jsonObject.getString("name")) ){
-            map.put("msg", "标题名不能为空");
+            map.put("msg", "类名不能为空");
             return map;
         }
+        if (jsonObject.getBoolean("state")){
+            int sum = 0;
+            ArrayList<Kind> sonkind = new ArrayList<Kind>();
+            Kind kind = new Kind(jsonObject.getString("name"),jsonObject.getBoolean("state"),sonkind,jsonObject.getIntValue("index"),jsonObject.getString("imgadres"),null,sum,jsonObject.getString("content"))
 
-        Article article = articleRepositoryimpl.get(jsonObject.getString("name"));
-
-        if (article != null){
-            map.put("msg","该文章已存在");
+            map.put("state","添加栏目成功");
             return map;
-        }
-
-        if(StringUtils.isEmpty(jsonObject.getString("soncolumn")) ){
-            //母类下文章
-            Column mothercolumn = columnRepository.findById(jsonObject.getString("mothercolumn").toString()).get();
-            Article newarticle = new Article(jsonObject.getString("name"),mothercolumn,null,jsonObject.getString("imgadres"),jsonObject.getBoolean("stick"),jsonObject.getIntValue("index"),jsonObject.getString("content"));
-
-            articleRepository.save(newarticle);
-            map.put("msg","添加文章成功");
-            return map;
-
         }else{
-            //母类加子类文章
-
-            Column mothercolumn = columnRepository.findById(jsonObject.getString("mothercolumn").toString()).get();
-            //代码冗余了。。。
-            ArrayList<Column> sonlist = mothercolumn.getSon();
-            Column soncolumn = new Column();
-            for(Column newcolumn : sonlist){
-
-                if (newcolumn.getId().equals(jsonObject.getString("soncolumn"))){
-
-                    soncolumn = newcolumn;
-                }
+            Kind moterkind = kindRepository.findById(jsonObject.getString("motherid")).get();
+            if(StringUtils.isEmpty(jsonObject.getString("name")) ){
+                map.put("msg", "母类不存在");
+                return map;
             }
+            moterkind.setSum((moterkind.getSum() + 1 ));
 
-
-            Article newarticle = new Article(jsonObject.getString("name"),mothercolumn,soncolumn,jsonObject.getString("imgadres"),jsonObject.getBoolean("stick"),jsonObject.getIntValue("index"),jsonObject.getString("content"));
-
-            articleRepository.save(newarticle);
-            map.put("msg","添加文章成功");
-            return map;
-
+            Kind sonlkind  = new Kind()
         }
+
 
     }
     //更新类别

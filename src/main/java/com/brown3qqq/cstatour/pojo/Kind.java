@@ -21,6 +21,8 @@ public class Kind {
 
     private int index;
     private String imgadres;
+    private String montherid;
+    private int sum;
     private String content;
 
     public Kind(){}
@@ -41,6 +43,43 @@ public class Kind {
         this.index = index;
         this.imgadres = imgadres;
         this.content = content;
+    }
+
+    public Kind(String name, boolean state, ArrayList<Kind> sonkind, int index, String imgadres, String montherid, String content) {
+        this.name = name;
+        this.state = state;
+        this.sonkind = sonkind;
+        this.index = index;
+        this.imgadres = imgadres;
+        this.montherid = montherid;
+        this.content = content;
+    }
+
+    public Kind(String name, boolean state, ArrayList<Kind> sonkind, int index, String imgadres, String montherid, int sum, String content) {
+        this.name = name;
+        this.state = state;
+        this.sonkind = sonkind;
+        this.index = index;
+        this.imgadres = imgadres;
+        this.montherid = montherid;
+        this.sum = sum;
+        this.content = content;
+    }
+
+    public int getSum() {
+        return sum;
+    }
+
+    public void setSum(int sum) {
+        this.sum = sum;
+    }
+
+    public String getMontherid() {
+        return montherid;
+    }
+
+    public void setMontherid(String montherid) {
+        this.montherid = montherid;
     }
 
     public String getId() {
