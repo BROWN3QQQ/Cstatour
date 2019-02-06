@@ -1,13 +1,7 @@
 package com.brown3qqq.cstatour.service;
 
 import com.alibaba.fastjson.JSONObject;
-import com.brown3qqq.cstatour.dao.ArticleRepository;
 import com.brown3qqq.cstatour.dao.ColumnRepository;
-import com.brown3qqq.cstatour.dao.Impl.ArticleRepositoryimpl;
-import com.brown3qqq.cstatour.dao.Impl.ColumnRepositoryimpl;
-import com.brown3qqq.cstatour.dao.KindRepository;
-import com.brown3qqq.cstatour.pojo.Article;
-import com.brown3qqq.cstatour.pojo.Column;
 import com.brown3qqq.cstatour.pojo.Kind;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,13 +11,13 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
+
 @Service
-public class kindService {
-
-
+public class commodityService {
     @Autowired
-    KindRepository kindRepository;
-    //添加新类别
+    ColumnRepository columnRepository;
+
+    //添加新商品
     public Map<String,String > add(JSONObject jsonObject){
 
         Map<String,String> map = new HashMap<String, String >();
@@ -68,7 +62,7 @@ public class kindService {
 
 
     }
-    //更新类别
+    //更新商品
     public Map<String,String > update(JSONObject jsonObject) {
 
 
@@ -109,7 +103,7 @@ public class kindService {
         return map;
     }
 
-    //删除类别
+    //删除商品
     public Map<String,String > delete(JSONObject jsonObject) {
 
         Map<String, String> map = new HashMap<String, String>();
@@ -138,7 +132,7 @@ public class kindService {
     }
 
 
-    //获取kind库里所有栏目
+    //获取commodity库里所有商品
     public JSONObject getallkind(){
 
         JSONObject jsonObject = new JSONObject();
@@ -156,4 +150,5 @@ public class kindService {
 
         return jsonObject;
     }
+
 }

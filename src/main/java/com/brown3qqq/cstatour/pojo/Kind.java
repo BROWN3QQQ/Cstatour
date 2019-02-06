@@ -36,6 +36,18 @@ public class Kind {
         this.content = content;
     }
 
+    public Kind(String id, String name, boolean state, ArrayList<Kind> sonkind, int index, String imgadres, String montherid, int sum, String content) {
+        this.id = id;
+        this.name = name;
+        this.state = state;
+        this.sonkind = sonkind;
+        this.index = index;
+        this.imgadres = imgadres;
+        this.montherid = montherid;
+        this.sum = sum;
+        this.content = content;
+    }
+
     public Kind(String name, boolean state, ArrayList<Kind> sonkind, int index, String imgadres, String content) {
         this.name = name;
         this.state = state;
