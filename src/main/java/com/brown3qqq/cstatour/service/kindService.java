@@ -5,10 +5,11 @@ import com.brown3qqq.cstatour.dao.ArticleRepository;
 import com.brown3qqq.cstatour.dao.ColumnRepository;
 import com.brown3qqq.cstatour.dao.Impl.ArticleRepositoryimpl;
 import com.brown3qqq.cstatour.dao.Impl.ColumnRepositoryimpl;
+import com.brown3qqq.cstatour.dao.KindRepository;
 import com.brown3qqq.cstatour.pojo.Article;
 import com.brown3qqq.cstatour.pojo.Column;
+import com.brown3qqq.cstatour.pojo.Kind;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
 import java.util.ArrayList;
@@ -16,8 +17,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
-@Service
-public class articleService {
+public class kindService {
 
     @Autowired
     ArticleRepository articleRepository;
@@ -28,8 +28,9 @@ public class articleService {
     ColumnRepository columnRepository;
     @Autowired
     ColumnRepositoryimpl columnRepositoryimpl;
-
-    //添加新文章
+    @Autowired
+    KindRepository kindRepository;
+    //添加新类别
     public Map<String,String > add(JSONObject jsonObject){
 
         Map<String,String> map = new HashMap<String, String >();
@@ -61,7 +62,7 @@ public class articleService {
 
             Column mothercolumn = columnRepository.findById(jsonObject.getString("mothercolumn").toString()).get();
             //代码冗余了。。。
-            ArrayList<Column>sonlist = mothercolumn.getSon();
+            ArrayList<Column> sonlist = mothercolumn.getSon();
             Column soncolumn = new Column();
             for(Column newcolumn : sonlist){
 
@@ -79,9 +80,9 @@ public class articleService {
             return map;
 
         }
-        
+
     }
-    //更新文章内容
+    //更新类别
     public Map<String,String > update(JSONObject jsonObject){
 
 
@@ -105,16 +106,16 @@ public class articleService {
         if(StringUtils.isEmpty(jsonObject.getString("soncolumn")) ){
             //母类下文章
             Column mothercolumn = columnRepository.findById(jsonObject.getString("mothercolumn").toString()).get();
-                article.setMonthercolumn(mothercolumn);
-                article.setSoncolumn(null);
+            article.setMonthercolumn(mothercolumn);
+            article.setSoncolumn(null);
         }else{
             //母类加子类文章
 
             Column mothercolumn = columnRepository.findById(jsonObject.getString("mothercolumn").toString()).get();
 
             //这样写，很容易出毛病
-                article.setMonthercolumn(mothercolumn);
-                article.setSoncolumn(mothercolumn.getSon().get(jsonObject.getIntValue("sonmothercolumn")));
+            article.setMonthercolumn(mothercolumn);
+            article.setSoncolumn(mothercolumn.getSon().get(jsonObject.getIntValue("sonmothercolumn")));
         }
         article.setImgadres(jsonObject.getString("imgadres"));
         article.setStick(jsonObject.getBoolean("stick"));
@@ -127,7 +128,7 @@ public class articleService {
         return map;
     }
 
-    //删除文章
+    //删除类别
     public Map<String,String > delete(String id){
 
         Map<String,String> map = new HashMap<String, String >();
@@ -139,23 +140,23 @@ public class articleService {
             return map;
         }
 
-            Article article = articleRepository.findById(id).get();
+        Article article = articleRepository.findById(id).get();
 
 
-            if (article == null){
-                map.put("msg","栏目不存在");
-                return map;
-            }
-
-            //删除字段
-            articleRepository.delete(article);
-            map.put("state","成功");
-            map.put("msg","删除文章成功");
-
+        if (article == null){
+            map.put("msg","栏目不存在");
             return map;
+        }
+
+        //删除字段
+        articleRepository.delete(article);
+        map.put("state","成功");
+        map.put("msg","删除文章成功");
+
+        return map;
     }
 
-    //获取article库里所有栏目
+    //获取kind库里所有栏目
     public JSONObject getallarticle(){
 
         JSONObject jsonObject = new JSONObject();
@@ -176,11 +177,3 @@ public class articleService {
     }
 
 }
-
-
-
-
-
-
-
-

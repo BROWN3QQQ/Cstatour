@@ -62,7 +62,7 @@ public class columnService {
             ArrayList<Column> son = new ArrayList();
 //          String id = new String();
 
-            // 这样写是错的，应该有一个自增唯一id，要不然文章该找不到了
+            // 这样写是错的，应该有一个自增唯一id，要不然文章该找不到了，但是改变不了了，后面再重构
             int id = column.getSon().size() + 1;
             String ID = "";
             ID = id + "";
