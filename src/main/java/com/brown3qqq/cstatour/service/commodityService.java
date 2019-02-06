@@ -2,11 +2,14 @@ package com.brown3qqq.cstatour.service;
 
 import com.alibaba.fastjson.JSONObject;
 import com.brown3qqq.cstatour.dao.ColumnRepository;
+import com.brown3qqq.cstatour.dao.CommodityRepository;
+import com.brown3qqq.cstatour.pojo.Commodity;
 import com.brown3qqq.cstatour.pojo.Kind;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -15,8 +18,7 @@ import java.util.Map;
 @Service
 public class commodityService {
     @Autowired
-    ColumnRepository columnRepository;
-
+    CommodityRepository commodityrepository;
     //添加新商品
     public Map<String,String > add(JSONObject jsonObject){
 
@@ -24,41 +26,23 @@ public class commodityService {
 
         //过滤字段是否为空
         if(StringUtils.isEmpty(jsonObject.getString("name")) ){
-            map.put("msg", "类名不能为空");
+            map.put("msg", "商品名不能为空");
             return map;
         }
-        if (jsonObject.getBoolean("state")){
-            int sum = 0;
-            ArrayList<Kind> sonkind = new ArrayList<Kind>();
-            Kind kind = new Kind(jsonObject.getString("name"),jsonObject.getBoolean("state"),sonkind,jsonObject.getIntValue("index"),jsonObject.getString("imgadres"),null,sum,jsonObject.getString("content"));
-
-            kindRepository.save(kind);
-            map.put("state","添加栏目成功");
-            map.put("msg","添加栏目成功");
-
-            return map;
-        }else{
-            Kind moterkind = kindRepository.findById(jsonObject.getString("motherid")).get();
-            if(StringUtils.isEmpty(jsonObject.getString("name")) ){
-                map.put("msg", "母类不存在");
-                return map;
-            }
-            int sum = moterkind.getSum() + 1;
-            moterkind.setSum(sum);
-            String id = "" + sum;
-
-            Kind sonlkind  = new Kind(id,jsonObject.getString("name"),jsonObject.getBoolean("state"),null,jsonObject.getIntValue("index"),jsonObject.getString("imgadres"),jsonObject.getString("motherid"),0,jsonObject.getString("content"));
-
-            moterkind.getSonkind().add(sonlkind);
-
-            kindRepository.save(moterkind);
-
-            map.put("state","添加栏目成功");
-            map.put("msg","添加栏目成功");
-
+        if(StringUtils.isEmpty(jsonObject.getString("imgadres")) ){
+            map.put("msg", "商品图片地址不能为空");
             return map;
         }
 
+        BigDecimal money = new BigDecimal(jsonObject.getString("moneystr"));
+        Commodity commodity = new Commodity(jsonObject.getString("name"),jsonObject.getString("imgadres"),jsonObject.getString("moneystr"),money,jsonObject.getString("company"),jsonObject.getIntValue("index"),jsonObject.getString("motherkind"),jsonObject.getBoolean("hot"),jsonObject.getBoolean("useful"),jsonObject.getString("contnet"));
+
+        commodityrepository.save(commodity);
+
+        map.put("state","添加栏目成功");
+        map.put("msg","添加栏目成功");
+
+        return map;
 
 
     }
@@ -66,39 +50,41 @@ public class commodityService {
     public Map<String,String > update(JSONObject jsonObject) {
 
 
-        Map<String, String> map = new HashMap<String, String>();
+        Map<String,String> map = new HashMap<String, String >();
 
         //过滤字段是否为空
-        if (StringUtils.isEmpty(jsonObject.getString("name"))) {
-            map.put("msg", "类名不能为空");
+        if(StringUtils.isEmpty(jsonObject.getString("name")) ){
+            map.put("msg", "商品名不能为空");
+            return map;
+        }
+        if(StringUtils.isEmpty(jsonObject.getString("imgadres")) ){
+            map.put("msg", "商品图片地址不能为空");
             return map;
         }
 
-        Kind motherkind = kindRepository.findById(jsonObject.getString("motherid")).get();
+        BigDecimal money = new BigDecimal(jsonObject.getString("moneystr"));
 
-        if (motherkind == null) {
-            map.put("msg", "母类不存在");
+        Commodity commodity = commodityrepository.findById(jsonObject.getString("id")).get();
+
+        if (commodity == null){
+            map.put("msg", "商品不存在");
             return map;
         }
 
-        ArrayList<Kind> sonlist = motherkind.getSonkind();
+        commodity.setCommodityname(jsonObject.getString("name"));
+        commodity.setCompany(jsonObject.getString("company"));
+        commodity.setContent(jsonObject.getString("content"));
+        commodity.setHot(jsonObject.getBoolean("hot"));
+        commodity.setMoney(money);
+        commodity.setMoneystr(jsonObject.getString("moneystr"));
+        commodity.setMotherkind(jsonObject.getString("motherkind"));
+        commodity.setImgadres(jsonObject.getString("imgadres"));
+        commodity.setIndex(jsonObject.getIntValue("index"));
 
-        for (Kind newkind : sonlist) {
-
-            if (newkind.getId().equals(jsonObject.getString("id"))) {
-                //更新字段
-                newkind.setName(jsonObject.getString("name"));
-                newkind.setContent(jsonObject.getString("content"));
-                newkind.setIndex(jsonObject.getIntValue("index"));
-                newkind.setImgadres(jsonObject.getString("imgadres"));
-            }
-        }
-
-        motherkind.setSonkind(sonlist);
-        kindRepository.save(motherkind);
+        commodityrepository.save(commodity);
 
         map.put("state", "成功");
-        map.put("msg", "更新栏目成功");
+        map.put("msg", "更新商品成功");
 
         return map;
     }
@@ -108,47 +94,36 @@ public class commodityService {
 
         Map<String, String> map = new HashMap<String, String>();
 
-        Kind motherkind = kindRepository.findById(jsonObject.getString("motherid")).get();
+        Commodity commodity = commodityrepository.findById(jsonObject.getString("id")).get();
 
-        if (motherkind == null) {
-            map.put("msg", " 母类不存在");
+        if (commodity == null) {
+            map.put("msg", " 商品不存在");
             return map;
-
         }
-        ArrayList<Kind> sonlist = motherkind.getSonkind();
 
-        for (Kind newkind : sonlist) {
+        commodityrepository.delete(commodity);
+        map.put("state", "成功");
+        map.put("msg", "删除文章成功");
 
-            if (newkind.getId().equals(jsonObject.getString("id"))) {
-                //更新字段
-                motherkind.getSonkind().remove(newkind);
-                kindRepository.save(motherkind);
-                map.put("state", "成功");
-                map.put("msg", "删除栏目成功");
-                return map;
-            }
-        }
         return map;
     }
 
-
     //获取commodity库里所有商品
-    public JSONObject getallkind(){
+    public JSONObject getallcommodity(){
 
         JSONObject jsonObject = new JSONObject();
 
-        Iterable<Kind> iterable = kindRepository.findAll();
-        Iterator<Kind> iterator = iterable.iterator();
+        Iterable<Commodity> iterable = commodityrepository.findAll();
+        Iterator<Commodity> iterator = iterable.iterator();
         int sum = 1;
         while (iterator.hasNext()){
-            Kind kind = iterator.next();
+            Commodity commodity = iterator.next();
+
             String SUM="";
             SUM = sum + "";
-            jsonObject.put(SUM,kind);
+            jsonObject.put(SUM,commodity);
             ++sum;
         }
-
         return jsonObject;
     }
-
 }

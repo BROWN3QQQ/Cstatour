@@ -43,7 +43,7 @@
 {   
   	"name":"酒店床型管理",
   	"state":false,    //该字段一定为false
-  	"motherid":"5c5a978702388c2518867e11",   //该字段要提前请求获取全部类别接口获取
+  	"motherid":"5c5a978702388c2518867e11",   //该字段要提前请求获取全部类别接口获取，本字段id为举例
     "imgadres":"/home/www/static/img/sakdlaskjdhskaljd",
     "index":1,
     "content":"酒店类"
@@ -56,7 +56,7 @@
   	"motherid":"5c5a978702388c2518867e11",   //该字段要提前请求获取全部类别接口获取
     "imgadres":"/home/www/static/img/sakdlaskjdhskaljd",
     "index":1,
-    "content":"酒店类"
+    "content":"酒店类"	
 }
 //删除类别
 {   
@@ -64,4 +64,38 @@
   	"motherid":"5c5a978702388c2518867e11"   //该字段要提前请求获取全部类别接口获取
     
 }
+
+------------------------------------------------------------------------------------------
+//常用商品管理CRUD请求模板
+//增加商品
+{   
+  	"name":"小面包",
+  	"moneystr":"3847.3845",    
+  	"company":"包",   
+    "imgadres":"/home/www/static/img/sakdlaskjdhskaljd",
+    "index":1,
+    "motherkind":"工艺品",
+    "hot":true,
+    "useful":true,
+    "content":"真是又好吃又大的面包啊"
+}
+//更新商品
+{   
+	"id":"5c5af68702388c42f02bf73b",
+  	"name":"小面包",
+  	"moneystr":"3847.3845",    
+  	"company":"包",   
+    "imgadres":"/home/www/static/img/sakdlaskjdhskaljd",
+    "index":1,
+    "motherkind":"工艺品",
+    "hot":true,
+    "useful":true,
+    "content":"真是又好吃又大的面包啊"
+}
+//删除商品
+{   
+	"id":"5c5af68702388c42f02bf73b"
+}
+
+
 

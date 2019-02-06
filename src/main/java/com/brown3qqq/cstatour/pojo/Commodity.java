@@ -21,6 +21,7 @@ public class Commodity {
     private BigDecimal money;
     //计量单位
     private String company;
+    private int index;
 
     private String motherkind;
 
@@ -53,6 +54,27 @@ public class Commodity {
         this.hot = hot;
         this.useful = useful;
         this.content = content;
+    }
+
+    public Commodity(String commodityname, String imgadres, String moneystr, BigDecimal money, String company, int index, String motherkind, boolean hot, boolean useful, String content) {
+        this.commodityname = commodityname;
+        this.imgadres = imgadres;
+        this.moneystr = moneystr;
+        this.money = money;
+        this.company = company;
+        this.index = index;
+        this.motherkind = motherkind;
+        this.hot = hot;
+        this.useful = useful;
+        this.content = content;
+    }
+
+    public int getIndex() {
+        return index;
+    }
+
+    public void setIndex(int index) {
+        this.index = index;
     }
 
     public String getId() {
