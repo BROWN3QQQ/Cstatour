@@ -96,6 +96,93 @@
 {   
 	"id":"5c5af68702388c42f02bf73b"
 }
+-----------------------------------------------------------------//常用商品管理CRUD请求模板
+//常用景点管理CRUD请求模板
+//增加景点
+{   
+  	"name":"莫力达瓦达斡尔族自治旗",  
+    "imgadres":"/home/www/static/img/sakdlaskjdhskaljd",
+    "index":1,
+    "motherspot":"内蒙古",
+    "hot":true,
+    "useful":true,
+    "spendtime":"30分钟",
+    "moneystr":"723687.344",
+    "moneyintroduce":"真是一个美丽的大都市啊",
+    "kind":"徒步",
+    "timeinterval":"上午",
+    "level":"五星",
+    "useful":true,
+    "remarks":"备注",
+    "introduce":"真是一个美丽的大都市啊"
+}
+//更新景点
+{   
+	"id":"5c5d484102388c38682d1a23",
+  	"name":"莫力达瓦达斡尔族自治旗",  
+    "imgadres":"/home/www/static/img/sakdlaskjdhskaljd",
+    "index":1,
+    "motherspot":"内蒙古",
+    "hot":true,
+    "useful":true,
+    "spendtime":"30分钟",
+    "moneystr":"723687.344",
+    "moneyintroduce":"真是一个美丽的大都市啊",
+    "kind":"徒步",
+    "timeinterval":"上午",
+    "level":"五星",
+    "useful":true,
+    "remarks":"备注",
+    "introduce":"真是一个美丽的大都市啊"
+}
+//删除景点
+{   
+	"id":"5c5af68702388c42f02bf73b"
+}
+------------------------------------------------------------------------------
 
+//常用餐饮管理CRUD请求模板
+//增加餐饮
+{   
+  	"name":"大羊肉餐馆",  
+    "imgadres":"/home/www/static/img/sakdlaskjdhskaljd",
+    "index":1,
+    "motherspot":"内蒙古",
+    "hot":true,
+    "useful":true,
+    "spendtime":"30分钟",
+    "moneystr":"723687.344",
+    "moneyintroduce":"真是一个美丽的大都市啊",
+    "kind":"徒步",
+    "timeinterval":"上午",
+    "level":"五星",
+    "useful":true,
+    "remarks":"备注",
+    "introduce":"真是一个美丽的大都市啊"
+}
+//更新景点
+{   
+	"id":"5c5d484102388c38682d1a23",
+  	"name":"大羊肉餐馆",  
+    "imgadres":"/home/www/static/img/sakdlaskjdhskaljd",
+    "index":1,
+    "motherspot":"内蒙古",
+    "hot":true,
+    "useful":true,
+    "spendtime":"30分钟",
+    "moneystr":"723687.344",
+    "moneyintroduce":"真是一个美丽的大都市啊",
+    "kind":"徒步",
+    "timeinterval":"上午",
+    "level":"五星",
+    "useful":true,
+    "remarks":"备注",
+    "introduce":"真是一个美丽的大都市啊"
+}
+//删除景点
+{   
+	"id":"5c5af68702388c42f02bf73b"
+}
+------------------------------------------------------------------------------
 
 

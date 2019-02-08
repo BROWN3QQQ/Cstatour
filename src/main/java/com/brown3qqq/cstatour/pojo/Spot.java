@@ -72,4 +72,131 @@ public class Spot {
         this.remarks = remarks;
     }
 
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getImgadres() {
+        return imgadres;
+    }
+
+    public void setImgadres(String imgadres) {
+        this.imgadres = imgadres;
+    }
+
+    public String getMotherspot() {
+        return motherspot;
+    }
+
+    public void setMotherspot(String motherspot) {
+        this.motherspot = motherspot;
+    }
+
+    public String getSpendtime() {
+        return spendtime;
+    }
+
+    public void setSpendtime(String spendtime) {
+        this.spendtime = spendtime;
+    }
+
+    public String getMoneystr() {
+        return moneystr;
+    }
+
+    public void setMoneystr(String moneystr) {
+        this.moneystr = moneystr;
+    }
+
+    public BigDecimal getMoney() {
+        return money;
+    }
+
+    public void setMoney(BigDecimal money) {
+        this.money = money;
+    }
+
+    public String getMoneyintroduce() {
+        return moneyintroduce;
+    }
+
+    public void setMoneyintroduce(String moneyintroduce) {
+        this.moneyintroduce = moneyintroduce;
+    }
+
+    public String getKind() {
+        return kind;
+    }
+
+    public void setKind(String kind) {
+        this.kind = kind;
+    }
+
+    public String getTimeinterval() {
+        return timeinterval;
+    }
+
+    public void setTimeinterval(String timeinterval) {
+        this.timeinterval = timeinterval;
+    }
+
+    public String getLevel() {
+        return level;
+    }
+
+    public void setLevel(String level) {
+        this.level = level;
+    }
+
+    public int getIndex() {
+        return index;
+    }
+
+    public void setIndex(int index) {
+        this.index = index;
+    }
+
+    public boolean isHot() {
+        return hot;
+    }
+
+    public void setHot(boolean hot) {
+        this.hot = hot;
+    }
+
+    public boolean isUseful() {
+        return useful;
+    }
+
+    public void setUseful(boolean useful) {
+        this.useful = useful;
+    }
+
+    public String getIntroduce() {
+        return introduce;
+    }
+
+    public void setIntroduce(String introduce) {
+        this.introduce = introduce;
+    }
+
+    public String getRemarks() {
+        return remarks;
+    }
+
+    public void setRemarks(String remarks) {
+        this.remarks = remarks;
+    }
 }
