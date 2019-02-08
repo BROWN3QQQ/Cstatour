@@ -6,7 +6,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.math.BigDecimal;
 
-
+//商品
 @Document(collection = "commodity")
 public class Commodity {
     @Id
