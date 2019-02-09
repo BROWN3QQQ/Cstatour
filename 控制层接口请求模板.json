@@ -112,7 +112,7 @@
     "kind":"徒步",
     "timeinterval":"上午",
     "level":"五星",
-    "useful":true,
+   
     "remarks":"备注",
     "introduce":"真是一个美丽的大都市啊"
 }
@@ -156,11 +156,10 @@
     "kind":"徒步",
     "timeinterval":"上午",
     "level":"五星",
-    "useful":true,
     "remarks":"备注",
     "introduce":"真是一个美丽的大都市啊"
 }
-//更新景点
+//更新餐饮
 {   
 	"id":"5c5d484102388c38682d1a23",
   	"name":"大羊肉餐馆",  
@@ -175,14 +174,50 @@
     "kind":"徒步",
     "timeinterval":"上午",
     "level":"五星",
-    "useful":true,
+  
     "remarks":"备注",
     "introduce":"真是一个美丽的大都市啊"
 }
-//删除景点
+//删除餐饮
 {   
 	"id":"5c5af68702388c42f02bf73b"
 }
 ------------------------------------------------------------------------------
-
-
+//常用娱乐管理CRUD请求模板
+//增加娱乐
+{   
+  	"name":"保龄球",  
+    "imgadres":"/home/www/static/img/sakdlaskjdhskaljd",
+    "motherspot":"旧金山",
+    "spendtime":"30分钟",
+    "moneystr":"723687.344",
+    "moneyintroduce":"真是一个美丽的大都市啊，钱花的也值",
+    "timeinterval":"上午",
+    "level":"五星",
+    "index":1,
+    "hot":true,
+    "useful":true,
+    "introduce":"真是一个美丽的大都市啊",
+     "remarks":"备注"
+}
+//更新娱乐
+{   
+	"id":"5c5d484102388c38682d1a23",
+   	"name":"保龄球",  
+    "imgadres":"/home/www/static/img/sakdlaskjdhskaljd",
+    "motherspot":"旧金山",
+    "spendtime":"30分钟",
+    "moneystr":"723687.344",
+    "moneyintroduce":"真是一个美丽的大都市啊，钱花的也值",
+    "timeinterval":"上午",
+    "level":"五星",
+    "index":1,
+    "hot":true,
+    "useful":true,
+    "introduce":"真是一个美丽的大都市啊",
+    "remarks":"备注"
+}
+//删除娱乐
+{   
+	"id":"5c5af68702388c42f02bf73b"
+}

@@ -1,13 +1,12 @@
 package com.brown3qqq.cstatour.service;
 
 import com.alibaba.fastjson.JSONObject;
-import com.brown3qqq.cstatour.dao.RestaurantRepository;
-import com.brown3qqq.cstatour.dao.SpotRepository;
+import com.brown3qqq.cstatour.pojo.Entertainment;
 import com.brown3qqq.cstatour.pojo.Restaurant;
-import com.brown3qqq.cstatour.pojo.Spot;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
+import com.brown3qqq.cstatour.dao.EntertainmentRepository;
 
 import java.math.BigDecimal;
 import java.util.HashMap;
@@ -15,11 +14,13 @@ import java.util.Iterator;
 import java.util.Map;
 
 @Service
-public class restaurantService {
+public class entertainmentService{
 
     @Autowired
-    RestaurantRepository restaurantRepository;
-    //添加新餐馆信息
+    EntertainmentRepository entertainmentRepository;
+
+
+    //添加新娱乐息
     public Map<String,String > add(JSONObject jsonObject){
 
         Map<String,String> map = new HashMap<String, String >();
@@ -30,9 +31,9 @@ public class restaurantService {
             return map;
         }
         BigDecimal money = new BigDecimal(jsonObject.getString("moneystr"));
-        Restaurant restaurant = new Restaurant(jsonObject.getString("name"),jsonObject.getString("imgadres"),jsonObject.getString("motherspot"),jsonObject.getString("spendtime"),jsonObject.getString("moneystr"),money,jsonObject.getString("moneyintroduce"),jsonObject.getString("kind"),jsonObject.getString("timeinterval"),jsonObject.getString("level"),jsonObject.getIntValue("ineex"),jsonObject.getBoolean("hot"),jsonObject.getBoolean("useful"),jsonObject.getString("introduce"),jsonObject.getString("remarks"));
+        Entertainment entertainment = new Entertainment(jsonObject.getString("name"),jsonObject.getString("imgadres"),jsonObject.getString("motherspot"),jsonObject.getString("spendtime"),jsonObject.getString("moneystr"),money,jsonObject.getString("moneyintroduce"),jsonObject.getString("timeinterval"),jsonObject.getString("level"),jsonObject.getIntValue("ineex"),jsonObject.getBoolean("hot"),jsonObject.getBoolean("useful"),jsonObject.getString("introduce"),jsonObject.getString("remarks"));
 
-        restaurantRepository.save(restaurant);
+        entertainmentRepository.save(entertainment);
 
         map.put("state","成功");
         map.put("msg","添加景点成功");
@@ -40,7 +41,7 @@ public class restaurantService {
 
     }
 
-    //更新餐馆内容
+    //更新娱乐内容
     public Map<String,String > update(JSONObject jsonObject){
 
 
@@ -51,19 +52,18 @@ public class restaurantService {
             map.put("msg", "标题名不能为空");
             return map;
         }
+        Entertainment entertainment =entertainmentRepository.findById(jsonObject.getString("id")).get();
 
-        Restaurant restaurant = restaurantRepository.findById(jsonObject.getString("id")).get();
-
-        if (restaurant == null){
+        if (entertainment == null){
             map.put("msg","景点内容不存在");
             return map;
         }
 
         BigDecimal money = new BigDecimal(jsonObject.getString("moneystr"));
-        Restaurant newrestaurant = new Restaurant(jsonObject.getString("id"),jsonObject.getString("name"),jsonObject.getString("imgadres"),jsonObject.getString("motherspot"),jsonObject.getString("spendtime"),jsonObject.getString("moneystr"),money,jsonObject.getString("moneyintroduce"),jsonObject.getString("kind"),jsonObject.getString("timeinterval"),jsonObject.getString("level"),jsonObject.getIntValue("ineex"),jsonObject.getBoolean("hot"),jsonObject.getBoolean("useful"),jsonObject.getString("introduce"),jsonObject.getString("remarks"));
 
-        restaurantRepository.save(newrestaurant);
+        Entertainment newentertainment = new Entertainment(jsonObject.getString("id"),jsonObject.getString("name"),jsonObject.getString("imgadres"),jsonObject.getString("motherspot"),jsonObject.getString("spendtime"),jsonObject.getString("moneystr"),money,jsonObject.getString("moneyintroduce"),jsonObject.getString("timeinterval"),jsonObject.getString("level"),jsonObject.getIntValue("ineex"),jsonObject.getBoolean("hot"),jsonObject.getBoolean("useful"),jsonObject.getString("introduce"),jsonObject.getString("remarks"));
 
+        entertainmentRepository.save(newentertainment);
 
         //更新字段
         map.put("state","成功");
@@ -71,7 +71,7 @@ public class restaurantService {
         return map;
     }
 
-    //删除餐馆信息
+    //删除娱乐信息
     public Map<String,String > delete(JSONObject jsonObject){
 
         Map<String,String> map = new HashMap<String, String >();
@@ -79,18 +79,19 @@ public class restaurantService {
         //过滤字段是否为空
 
         if(StringUtils.isEmpty(jsonObject.getString("id"))){
-            map.put("msg", "景点唯一id为空");
+            map.put("msg", "娱乐唯一id为空");
             return map;
         }
-        Restaurant restaurant = restaurantRepository.findById(jsonObject.getString("id")).get();
+        Entertainment entertainment = entertainmentRepository.findById(jsonObject.getString("id")).get();
 
-        if (restaurant == null){
+        if (entertainment == null){
             map.put("msg","景点不存在");
             return map;
         }
 
         //删除字段
-        restaurantRepository.delete(restaurant);
+        entertainmentRepository.delete(entertainment);
+
 
         map.put("state","成功");
         map.put("msg","删除文章成功");
@@ -98,19 +99,19 @@ public class restaurantService {
         return map;
     }
 
-    public JSONObject getallarticle(){
+    public JSONObject getallentertainment(){
 
         JSONObject jsonObject = new JSONObject();
 
-        Iterable<Restaurant> iterable = restaurantRepository.findAll();
-        Iterator<Restaurant> iterator = iterable.iterator();
+        Iterable<Entertainment> iterable = entertainmentRepository.findAll();
+        Iterator<Entertainment> iterator = iterable.iterator();
 
         int sum = 1;
         while (iterator.hasNext()){
-            Restaurant restaurant = iterator.next();
+            Entertainment entertainment = iterator.next();
             String SUM="";
             SUM = sum + "";
-            jsonObject.put(SUM,restaurant);
+            jsonObject.put(SUM,entertainment);
             ++sum;
         }
 
