@@ -49,37 +49,51 @@ public class articleService {
 
         if(StringUtils.isEmpty(jsonObject.getString("soncolumn")) ){
             //母类下文章
-            Column mothercolumn = columnRepository.findById(jsonObject.getString("mothercolumn").toString()).get();
-            Article newarticle = new Article(jsonObject.getString("name"),mothercolumn,null,jsonObject.getString("imgadres"),jsonObject.getBoolean("stick"),jsonObject.getIntValue("index"),jsonObject.getString("content"));
+            boolean mothercolumnboolean = columnRepository.findById(jsonObject.getString("mothercolumn")).isPresent();
 
-            articleRepository.save(newarticle);
-            map.put("msg","添加文章成功");
-            return map;
+            if (mothercolumnboolean){
+                Column mothercolumn = columnRepository.findById(jsonObject.getString("mothercolumn")).get();
+                Article newarticle = new Article(jsonObject.getString("name"),mothercolumn,null,jsonObject.getString("imgadres"),jsonObject.getBoolean("stick"),jsonObject.getIntValue("index"),jsonObject.getString("content"));
 
-        }else{
-            //母类加子类文章
+                articleRepository.save(newarticle);
+                map.put("msg","添加文章成功");
+                return map;
+            }else {
 
-            Column mothercolumn = columnRepository.findById(jsonObject.getString("mothercolumn").toString()).get();
-            //代码冗余了。。。
-            ArrayList<Column>sonlist = mothercolumn.getSon();
-            Column soncolumn = new Column();
-            for(Column newcolumn : sonlist){
-
-                if (newcolumn.getId().equals(jsonObject.getString("soncolumn"))){
-
-                    soncolumn = newcolumn;
-                }
+                map.put("msg","母栏目不存在");
+                return map;
             }
 
 
-            Article newarticle = new Article(jsonObject.getString("name"),mothercolumn,soncolumn,jsonObject.getString("imgadres"),jsonObject.getBoolean("stick"),jsonObject.getIntValue("index"),jsonObject.getString("content"));
+        }else{
+            //母类加子类文章
+            boolean mothercolumnboolean = columnRepository.findById(jsonObject.getString("mothercolumn")).isPresent();
+            if (mothercolumnboolean){
+                Column mothercolumn = columnRepository.findById(jsonObject.getString("mothercolumn")).get();
 
-            articleRepository.save(newarticle);
-            map.put("msg","添加文章成功");
-            return map;
+                //代码冗余了。。。
+                ArrayList<Column>sonlist = mothercolumn.getSon();
+                Column soncolumn = new Column();
+                for(Column newcolumn : sonlist){
 
+                    if (newcolumn.getId().equals(jsonObject.getString("soncolumn"))){
+
+                        soncolumn = newcolumn;
+                        Article newarticle = new Article(jsonObject.getString("name"),mothercolumn,soncolumn,jsonObject.getString("imgadres"),jsonObject.getBoolean("stick"),jsonObject.getIntValue("index"),jsonObject.getString("content"));
+
+                        articleRepository.save(newarticle);
+                        map.put("state","成功");
+                        map.put("msg","添加文章成功");
+                        return map;
+                    }
+                }
+                return map;
+            }else {
+
+                map.put("msg","母栏目不存在");
+                return map;
+            }
         }
-        
     }
     //更新文章内容
     public Map<String,String > update(JSONObject jsonObject){

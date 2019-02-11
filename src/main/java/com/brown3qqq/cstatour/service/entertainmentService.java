@@ -20,7 +20,7 @@ public class entertainmentService{
     EntertainmentRepository entertainmentRepository;
 
 
-    //添加新娱乐息
+    //添加新娱乐信息
     public Map<String,String > add(JSONObject jsonObject){
 
         Map<String,String> map = new HashMap<String, String >();

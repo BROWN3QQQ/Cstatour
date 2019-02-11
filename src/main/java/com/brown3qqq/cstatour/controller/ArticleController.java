@@ -18,7 +18,7 @@ import java.util.Map;
 @RestController
 @RequestMapping("/admin")
 public class ArticleController {
-    private static final Logger logger = LoggerFactory.getLogger(ColumnCategoryController.class);
+    private static final Logger logger = LoggerFactory.getLogger(ArticleController.class);
 
     @Autowired
     MongoTemplate mongoTemplate;
@@ -96,7 +96,7 @@ public class ArticleController {
     }
 
     //获取全部栏目
-    @RequestMapping(value = "/getarticle", method = RequestMethod.POST)
+    @RequestMapping(value = "/getarticle", method = RequestMethod.GET)
     public JSONObject get(@RequestBody JSONObject jsonObject, HttpServletResponse httpServletResponse){
         try {
             return articleService.getallarticle();
