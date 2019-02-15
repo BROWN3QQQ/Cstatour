@@ -7,6 +7,8 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
+
+//拦截器
 @Configuration
 public class WendaWepConfiguration implements WebMvcConfigurer {
 
@@ -15,6 +17,7 @@ public class WendaWepConfiguration implements WebMvcConfigurer {
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
+
         registry.addInterceptor(loginInterceptor).addPathPatterns("/userrr/*");
     }
 }

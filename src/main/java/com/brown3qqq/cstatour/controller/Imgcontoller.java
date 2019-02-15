@@ -14,11 +14,11 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 
 @RestController
-public class testcontoller {
+public class Imgcontoller {
 
-    @RequestMapping(value = "/testcontoller", method = RequestMethod.POST)
+    @RequestMapping(value = "/beimg", method = RequestMethod.POST)
     @ResponseBody
-    public String fileupload(@RequestParam("file") MultipartFile file){
+    public String fileupload(@RequestParam("file") MultipartFile file,@RequestParam("data") String data){
         if (!file.isEmpty()) {
             try {
                 /*
@@ -27,13 +27,11 @@ public class testcontoller {
                  * 这里只是简单一个例子,请自行参考，融入到实际中可能需要大家自己做一些思考，比如： 1、文件路径； 2、文件名；
                  * 3、文件格式; 4、文件大小的限制;
                  */
-                BufferedOutputStream out = new BufferedOutputStream(
-                        new FileOutputStream(new File(file.getOriginalFilename())));
+                BufferedOutputStream out = new BufferedOutputStream(new FileOutputStream("E://CstatourIdeaProject/src/main/resources/static/imgsource/"+ data));
                 System.out.println(file.getName());
                 System.out.println(file.getSize());
                 System.out.println(file.getBytes());
                 System.out.println(file.getContentType());
-
 
 
                 out.write(file.getBytes());
