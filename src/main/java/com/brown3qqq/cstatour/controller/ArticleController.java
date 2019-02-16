@@ -96,7 +96,7 @@ public class ArticleController {
     }
 
     //获取全部栏目
-    @RequestMapping(value = "/getarticle", method = RequestMethod.GET)
+    @RequestMapping(value = "/getarticle", method = RequestMethod.POST)
     public JSONObject get(@RequestBody JSONObject jsonObject, HttpServletResponse httpServletResponse){
         try {
             return articleService.getallarticle();

@@ -54,21 +54,23 @@ public class entertainmentService{
         }
         Entertainment entertainment =entertainmentRepository.findById(jsonObject.getString("id")).get();
 
-        if (entertainment == null){
+        if (!entertainmentRepository.findById(jsonObject.getString("id")).isPresent()){
             map.put("msg","景点内容不存在");
+            return map;
+        }else{
+            BigDecimal money = new BigDecimal(jsonObject.getString("moneystr"));
+
+            Entertainment newentertainment = new Entertainment(jsonObject.getString("id"),jsonObject.getString("name"),jsonObject.getString("imgadres"),jsonObject.getString("motherspot"),jsonObject.getString("spendtime"),jsonObject.getString("moneystr"),money,jsonObject.getString("moneyintroduce"),jsonObject.getString("timeinterval"),jsonObject.getString("level"),jsonObject.getIntValue("ineex"),jsonObject.getBoolean("hot"),jsonObject.getBoolean("useful"),jsonObject.getString("introduce"),jsonObject.getString("remarks"));
+
+            entertainmentRepository.save(newentertainment);
+
+            //更新字段
+            map.put("state","成功");
+            map.put("msg","更新景点成功");
             return map;
         }
 
-        BigDecimal money = new BigDecimal(jsonObject.getString("moneystr"));
 
-        Entertainment newentertainment = new Entertainment(jsonObject.getString("id"),jsonObject.getString("name"),jsonObject.getString("imgadres"),jsonObject.getString("motherspot"),jsonObject.getString("spendtime"),jsonObject.getString("moneystr"),money,jsonObject.getString("moneyintroduce"),jsonObject.getString("timeinterval"),jsonObject.getString("level"),jsonObject.getIntValue("ineex"),jsonObject.getBoolean("hot"),jsonObject.getBoolean("useful"),jsonObject.getString("introduce"),jsonObject.getString("remarks"));
-
-        entertainmentRepository.save(newentertainment);
-
-        //更新字段
-        map.put("state","成功");
-        map.put("msg","更新景点成功");
-        return map;
     }
 
     //删除娱乐信息

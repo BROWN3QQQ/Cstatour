@@ -3,7 +3,6 @@ package com.brown3qqq.cstatour.interceptor;
 import com.brown3qqq.cstatour.dao.Impl.TicketsRepositoryimpl;
 import com.brown3qqq.cstatour.dao.Impl.UserRepositoryimpl;
 import com.brown3qqq.cstatour.pojo.Ticket;
-import com.brown3qqq.cstatour.pojo.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
@@ -13,16 +12,21 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.OutputStream;
-import java.io.PrintWriter;
 import java.util.Date;
 
+/**
+ * @Classname AdminInterceptor
+ * @Description 编写管理员拦截器
+ * @Date 2019/2/15 18:40
+ * @Created by CQ
+ */
 @Component
-public class LoginInterceptor implements HandlerInterceptor {
-
+public class AdminInterceptor implements HandlerInterceptor {
     @Autowired
     TicketsRepositoryimpl ticketsRepositoryimpl;
     @Autowired
     UserRepositoryimpl userRepositoryimpl;
+
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
@@ -53,10 +57,17 @@ public class LoginInterceptor implements HandlerInterceptor {
             if (ticket == null){
                 response.setHeader("content-type", "text/html;charset=UTF-8");
                 OutputStream outputStream = response.getOutputStream();
-                outputStream.write("ticket对象为null,".getBytes("UTF-8"));
+                outputStream.write("ticket对象为null".getBytes("UTF-8"));
                 return false;
             }else {
-                return true;
+                if (ticket.getStatus() != 1){
+                    response.setHeader("content-type", "text/html;charset=UTF-8");
+                    OutputStream outputStream = response.getOutputStream();
+                    outputStream.write("账户权限不足".getBytes("UTF-8"));
+                    return false;
+                }else{
+                    return true;
+                }
             }
 
         }
@@ -65,7 +76,7 @@ public class LoginInterceptor implements HandlerInterceptor {
 
 
         return false;
-        }
+    }
 
 
 

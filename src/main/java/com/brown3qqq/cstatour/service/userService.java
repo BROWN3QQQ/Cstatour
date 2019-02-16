@@ -1,5 +1,6 @@
 package com.brown3qqq.cstatour.service;
 
+
 import com.brown3qqq.cstatour.dao.Impl.TicketsRepositoryimpl;
 import com.brown3qqq.cstatour.dao.Impl.UserRepositoryimpl;
 import com.brown3qqq.cstatour.dao.TicketRepository;
@@ -7,6 +8,7 @@ import com.brown3qqq.cstatour.dao.TicketsCustomerRepository;
 import com.brown3qqq.cstatour.dao.UserRepository;
 import com.brown3qqq.cstatour.pojo.Ticket;
 import com.brown3qqq.cstatour.pojo.User;
+import com.brown3qqq.cstatour.pojo.Admin.adminname;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
@@ -30,6 +32,7 @@ public class userService {
 
     @Autowired
     TicketsRepositoryimpl ticketsRepositoryimpl;
+
 
 
     //注册
@@ -62,7 +65,7 @@ public class userService {
         userRepository.save(newuser);
 
         //注册完成下发ticket之后自动登录
-        String ticket = addLoginTicket(userName);
+        String ticket = addLoginTicket(userName,0);
         map.put("ticket",ticket);
 
         return map;
@@ -96,16 +99,20 @@ public class userService {
             return map;
         }
 
-
-
+        String ticket;
+        if (userName.equals(adminname.ADMINNAME)){
+            ticket = addLoginTicket(userName,1);
+        }else{
+            ticket = addLoginTicket(userName,1);
+        }
 
     //注册完成下发ticket之后自动登录
-        String ticket = addLoginTicket(userName);
+
         map.put("ticket",ticket);
 
         return map;
     }
-
+    //更新用户
     public Map<String,String> update(String userName,String password,String newpassword){
         Map<String,String> map = new HashMap<String, String >();
         if(StringUtils.isEmpty(userName)){
@@ -128,22 +135,28 @@ public class userService {
         user.setPasswd(newpassword);
         userRepository.save(user);
 
-        //更改完密码以后，跳转到登录页面，要删除原用户下token
-        String ticket = addLoginTicket(userName);
+        String ticket;
+        if (userName.equals(adminname.ADMINNAME)){
+            ticket = addLoginTicket(userName,1);
+        }else{
+            ticket = addLoginTicket(userName,1);
+        }
+
+
         map.put("ticket",ticket);
         map.put("msg","更改密码成功");
         return map;
     }
     //添加token
-    public  String addLoginTicket(String username){
+    public  String addLoginTicket(String username,int state){
 
         User user = userRepositoryimpl.getUser(username);
         Ticket ticket = new Ticket();
         Date nowDate = new Date();
-        nowDate.setTime(3600*24*100 + nowDate.getTime());
+        nowDate.setTime(nowDate.getTime());
         ticket.setId(user.getId());
         ticket.setExpired(nowDate);
-        ticket.setStatus(0);
+        ticket.setStatus(state);
 
         ticket.setTicket(UUID.randomUUID().toString().replaceAll("_",""));
 

@@ -97,10 +97,10 @@ public class UserController {
                 Cookie cookie = new Cookie("ticket",map.get("ticket").toString());
                 cookie.setPath("/");
                 response.addCookie(cookie);
-                return map.get("msg");
+                return "更改密码成功";
             } else {
 
-                return map.get("msg");
+                return "更改密码失败";
             }
         } catch (Exception e) {
             logger.error("更改密码异常" + e.getMessage());

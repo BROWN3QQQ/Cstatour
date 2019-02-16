@@ -1,5 +1,7 @@
 package com.brown3qqq.cstatour.pojo;
 
+
+//酒店管理
 public class Hotel {
 
     private String id;
