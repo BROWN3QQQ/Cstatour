@@ -1,28 +1,26 @@
 package com.brown3qqq.cstatour.service;
 
 import com.alibaba.fastjson.JSONObject;
-import com.brown3qqq.cstatour.dao.TravelRepository;
-import com.brown3qqq.cstatour.pojo.Shopping;
+import com.brown3qqq.cstatour.dao.HotelRepository;
 import com.brown3qqq.cstatour.pojo.Travel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
 
-import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
 /**
- * @Classname travelService
- * @Description TODO
- * @Date 2019/2/16 15:39
+ * @Classname hotelService
+ * @Description
+ * @Date 2019/2/16 18:27
  * @Created by CQ
  */
-public class travelService {
+public class hotelService {
     @Autowired
-    TravelRepository travelRepository;
+    HotelRepository hotelRepository;
 
-    //添加新旅游内容
+    //添加新酒店信息
     public Map<String,String > add(JSONObject jsonObject){
 
         Map<String,String> map = new HashMap<String, String >();
@@ -42,7 +40,7 @@ public class travelService {
 
     }
 
-    //更新旅游内容
+    //更新酒店信息内容
     public Map<String,String > update(JSONObject jsonObject){
 
         Map<String,String> map = new HashMap<String, String >();
@@ -69,7 +67,7 @@ public class travelService {
         }
     }
 
-    //删除旅游内容信息
+    //删除酒店容内容信息
     public Map<String,String > delete(JSONObject jsonObject){
 
         Map<String,String> map = new HashMap<String, String >();
@@ -96,7 +94,7 @@ public class travelService {
 
     }
 
-    public JSONObject getallentertainment(){
+    public JSONObject getallHotel(){
 
         JSONObject jsonObject = new JSONObject();
 
