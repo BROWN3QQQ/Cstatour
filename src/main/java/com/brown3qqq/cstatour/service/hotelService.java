@@ -2,8 +2,10 @@ package com.brown3qqq.cstatour.service;
 
 import com.alibaba.fastjson.JSONObject;
 import com.brown3qqq.cstatour.dao.HotelRepository;
+import com.brown3qqq.cstatour.pojo.Hotel;
 import com.brown3qqq.cstatour.pojo.Travel;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
 import java.util.HashMap;
@@ -16,6 +18,7 @@ import java.util.Map;
  * @Date 2019/2/16 18:27
  * @Created by CQ
  */
+@Service
 public class hotelService {
     @Autowired
     HotelRepository hotelRepository;
@@ -30,12 +33,12 @@ public class hotelService {
             map.put("msg", "标题名不能为空");
             return map;
         }
-        Travel travel = new Travel(jsonObject.getString("name"),jsonObject.getString("imgadres"),jsonObject.getString("day"),jsonObject.getString("night"),jsonObject.getString("manmoney"),jsonObject.getString("kidmoney"),jsonObject.getString("moneyintroduce"),jsonObject.getString("level"),jsonObject.getIntValue("index"),jsonObject.getString("line"),jsonObject.getBoolean("hot"),jsonObject.getBoolean("useful"),jsonObject.getString("conspot"),jsonObject.getString("trip"),jsonObject.getString("tripspecial"),jsonObject.getString("remarks"));
+        Hotel hotel = new Hotel(jsonObject.getString("name"),jsonObject.getString("imgadres"),jsonObject.getString("telnum"),jsonObject.getString("hoteladdress"),jsonObject.getString("motherspot"),jsonObject.getIntValue("index"),jsonObject.getBoolean("hot"),jsonObject.getBoolean("useful"),jsonObject.getString("hotelcontent"));
 
-        travelRepository.save(travel);
+        hotelRepository.save(hotel);
 
         map.put("state","成功");
-        map.put("msg","添加旅游信息成功");
+        map.put("msg","添加酒店信息成功");
         return map;
 
     }
@@ -50,19 +53,19 @@ public class hotelService {
             map.put("msg", "标题名不能为空");
             return map;
         }
-        Travel travel = travelRepository.findById(jsonObject.getString("id")).get();
+        Hotel hotel = hotelRepository.findById(jsonObject.getString("id")).get();
 
-        if (!travelRepository.findById(jsonObject.getString("id")).isPresent()){
-            map.put("msg","旅游信息内容不存在");
+        if (!hotelRepository.findById(jsonObject.getString("id")).isPresent()){
+            map.put("msg","酒店信息内容不存在");
             return map;
         }else{
-            Travel newtravel = new Travel(jsonObject.getString("name"),jsonObject.getString("imgadres"),jsonObject.getString("day"),jsonObject.getString("night"),jsonObject.getString("manmoney"),jsonObject.getString("kidmoney"),jsonObject.getString("moneyintroduce"),jsonObject.getString("level"),jsonObject.getIntValue("index"),jsonObject.getString("line"),jsonObject.getBoolean("hot"),jsonObject.getBoolean("useful"),jsonObject.getString("conspot"),jsonObject.getString("trip"),jsonObject.getString("tripspecial"),jsonObject.getString("remarks"));
+            Hotel newhotel = new Hotel(jsonObject.getString("name"),jsonObject.getString("imgadres"),jsonObject.getString("telnum"),jsonObject.getString("hoteladdress"),jsonObject.getString("motherspot"),jsonObject.getIntValue("index"),jsonObject.getBoolean("hot"),jsonObject.getBoolean("useful"),jsonObject.getString("hotelcontent"));
 
-            travelRepository.save(newtravel);
+            hotelRepository.save(newhotel);
 
             //更新字段
             map.put("state","成功");
-            map.put("msg","更新旅游信息成功");
+            map.put("msg","更新酒店信息成功");
             return map;
         }
     }
@@ -75,19 +78,19 @@ public class hotelService {
         //过滤字段是否为空
 
         if(StringUtils.isEmpty(jsonObject.getString("id"))){
-            map.put("msg", "旅游信息唯一id为空");
+            map.put("msg", "酒店信息唯一id为空");
             return map;
         }
-        Travel travel = travelRepository.findById(jsonObject.getString("id")).get();
+        Hotel hotel = hotelRepository.findById(jsonObject.getString("id")).get();
 
-        if (!travelRepository.findById(jsonObject.getString("id")).isPresent()){
-            map.put("msg","旅游信息内容不存在");
+        if (!hotelRepository.findById(jsonObject.getString("id")).isPresent()){
+            map.put("msg","酒店信息内容不存在");
             return map;
         }else{
 
-            travelRepository.delete(travel);
+            hotelRepository.delete(hotel);
             map.put("state","成功");
-            map.put("msg","删除文章成功");
+            map.put("msg","删除酒店信息成功");
 
             return map;
         }
@@ -98,16 +101,18 @@ public class hotelService {
 
         JSONObject jsonObject = new JSONObject();
 
-        Iterable<Travel> iterable = travelRepository.findAll();
-        Iterator<Travel> iterator = iterable.iterator();
+        Iterable<Hotel> iterable = hotelRepository.findAll();
+        Iterator<Hotel> iterator = iterable.iterator();
 
         int sum = 1;
         while (iterator.hasNext()){
-            Travel travel = iterator.next();
+
+            Hotel hotel = iterator.next();
             String SUM="";
             SUM = sum + "";
-            jsonObject.put(SUM,travel);
+            jsonObject.put(SUM,hotel);
             ++sum;
+
         }
 
         return jsonObject;

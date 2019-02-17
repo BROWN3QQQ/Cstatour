@@ -5,6 +5,7 @@ import com.brown3qqq.cstatour.dao.TravelRepository;
 import com.brown3qqq.cstatour.pojo.Shopping;
 import com.brown3qqq.cstatour.pojo.Travel;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
 import java.math.BigDecimal;
@@ -18,6 +19,8 @@ import java.util.Map;
  * @Date 2019/2/16 15:39
  * @Created by CQ
  */
+
+@Service
 public class travelService {
     @Autowired
     TravelRepository travelRepository;
@@ -96,7 +99,7 @@ public class travelService {
 
     }
 
-    public JSONObject getallentertainment(){
+    public JSONObject getalltravel(){
 
         JSONObject jsonObject = new JSONObject();
 

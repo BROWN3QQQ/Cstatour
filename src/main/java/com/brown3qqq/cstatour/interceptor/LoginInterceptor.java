@@ -32,9 +32,9 @@ public class LoginInterceptor implements HandlerInterceptor {
 
             for (Cookie cookie : request.getCookies()) {
                 if (!cookie.getName().equals("ticket")) {
-                    response.setHeader("content-type", "text/html;charset=UTF-8");
-                    OutputStream outputStream = response.getOutputStream();
-                    outputStream.write("有cookie，字段没有ticket不允许通过".getBytes("UTF-8"));
+//                    response.setHeader("content-type", "text/html;charset=UTF-8");
+//                    OutputStream outputStream = response.getOutputStream();
+//                    outputStream.write("有cookie，字段没有ticket不允许通过".getBytes("UTF-8"));
                     return false;
 
                 }else {
@@ -42,18 +42,18 @@ public class LoginInterceptor implements HandlerInterceptor {
                 }
             }
         } else {
-            response.setHeader("content-type", "text/html;charset=UTF-8");
-            OutputStream outputStream = response.getOutputStream();
-            outputStream.write("没有cookie不允许通过，跳转到登录页面".getBytes("UTF-8"));
+//            response.setHeader("content-type", "text/html;charset=UTF-8");
+//            OutputStream outputStream = response.getOutputStream();
+//            outputStream.write("没有cookie不允许通过，跳转到登录页面".getBytes("UTF-8"));
             return false;
         }
 
         if (tickets != null) {
             Ticket ticket = ticketsRepositoryimpl.get(tickets);
             if (ticket == null){
-                response.setHeader("content-type", "text/html;charset=UTF-8");
-                OutputStream outputStream = response.getOutputStream();
-                outputStream.write("ticket对象为null,".getBytes("UTF-8"));
+//                response.setHeader("content-type", "text/html;charset=UTF-8");
+//                OutputStream outputStream = response.getOutputStream();
+//                outputStream.write("ticket对象为null,".getBytes("UTF-8"));
                 return false;
             }else {
                 return true;

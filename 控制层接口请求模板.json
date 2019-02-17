@@ -2,7 +2,7 @@
 //用户请求模板
 //添加新用户
 {   
-	//这个realname就是账号的意思
+	//这个realname就是账号的id
   	"realname":"505",
   	"telnum":"13847063773",
   	"passwd":"505" 

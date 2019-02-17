@@ -6,6 +6,7 @@ import com.brown3qqq.cstatour.dao.ShoppingRepository;
 import com.brown3qqq.cstatour.pojo.Entertainment;
 import com.brown3qqq.cstatour.pojo.Shopping;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
 import java.math.BigDecimal;
@@ -19,6 +20,8 @@ import java.util.Map;
  * @Date 2019/2/16 15:09
  * @Created by CQ
  */
+
+@Service
 public class shoppingService {
     @Autowired
     ShoppingRepository shoppingRepository;
@@ -99,7 +102,7 @@ public class shoppingService {
 
     }
 
-    public JSONObject getallentertainment(){
+    public JSONObject getallshopping(){
 
         JSONObject jsonObject = new JSONObject();
 
