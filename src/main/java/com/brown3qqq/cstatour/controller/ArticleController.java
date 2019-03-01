@@ -2,6 +2,8 @@ package com.brown3qqq.cstatour.controller;
 
 
 import com.alibaba.fastjson.JSONObject;
+import com.brown3qqq.cstatour.auxiliary.response;
+import com.brown3qqq.cstatour.pojo.State.Statecode;
 import com.brown3qqq.cstatour.service.columnService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,54 +29,58 @@ public class ArticleController {
     articleService articleService;
 
 
-
-
     //添加文章
     @RequestMapping(value = "/addarticle", method = RequestMethod.POST)
-    public String add(@RequestBody JSONObject jsonObject, HttpServletResponse httpServletResponse){
+    public JSONObject add(@RequestBody JSONObject jsonObject, HttpServletResponse httpServletResponse){
 
         try {
             Map<String, String> map = articleService.add(jsonObject);
 
             if (map.containsKey("state")) {
 
-                return "添加栏目成功";
+
+                return new response(Statecode.SUCCESS).getJsonObject();
             } else {
                 //model.addAttribute("msg", map.get("msg"));
-                return "添加栏目失败" + map.get("msg") ;
+
+                return new response(Statecode.FAIL).getJsonObject();
             }
 
         }catch (Exception e){
             logger.error("添加栏目异常:" + e.getMessage());
-            return "添加栏目异常";
+
+            return new response(Statecode.ABNORMAL).getJsonObject();
         }
 
     }
 
     //更新栏目类内容
     @RequestMapping(value = "/updatearticle", method = RequestMethod.POST)
-    public String update(@RequestBody JSONObject jsonObject, HttpServletResponse httpServletResponse){
+    public JSONObject update(@RequestBody JSONObject jsonObject, HttpServletResponse httpServletResponse){
 
         try {
             Map<String, String> map = articleService.update(jsonObject);
 
             if (map.containsKey("state")) {
 
-                return "更新栏目成功";
+
+                return new response(Statecode.SUCCESS).getJsonObject();
             } else {
                 //model.addAttribute("msg", map.get("msg"));
-                return "更新栏目失败，" + map.get("msg") ;
+
+                return new response(Statecode.FAIL).getJsonObject();
             }
 
         }catch (Exception e){
-            return "更新栏目异常";
+
+            return new response(Statecode.ABNORMAL).getJsonObject();
         }
 
     }
 
     //删除栏目内容
     @RequestMapping(value = "/deletearticle", method = RequestMethod.POST)
-    public String delete(@RequestBody JSONObject jsonObject, HttpServletResponse httpServletResponse){
+    public JSONObject delete(@RequestBody JSONObject jsonObject, HttpServletResponse httpServletResponse){
         JSONObject jsonObject1 = new JSONObject();
 
         try {
@@ -82,14 +88,17 @@ public class ArticleController {
 
             if (map.containsKey("state")) {
 
-                return "删除栏目成功";
+
+                return new response(Statecode.SUCCESS).getJsonObject();
             } else {
                 //model.addAttribute("msg", map.get("msg"));
-                return "删除栏目失败，" + map.get("msg") ;
+
+                return new response(Statecode.FAIL).getJsonObject();
             }
 
         }catch (Exception e){
-            return "删除栏目异常";
+
+            return new response(Statecode.ABNORMAL).getJsonObject();
         }
 
 

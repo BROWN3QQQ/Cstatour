@@ -1,6 +1,8 @@
 package com.brown3qqq.cstatour.controller;
 
 import com.alibaba.fastjson.JSONObject;
+import com.brown3qqq.cstatour.auxiliary.response;
+import com.brown3qqq.cstatour.pojo.State.Statecode;
 import com.brown3qqq.cstatour.service.BannerService;
 import com.brown3qqq.cstatour.service.shoppingService;
 import org.slf4j.Logger;
@@ -27,51 +29,54 @@ public class BannerController {
 
     //添加新首页滚动图片
     @RequestMapping(value = "/addbanner", method = RequestMethod.POST)
-    public String add(@RequestBody JSONObject jsonObject, HttpServletResponse httpServletResponse){
+    public JSONObject add(@RequestBody JSONObject jsonObject, HttpServletResponse httpServletResponse){
 
         try {
             Map<String, String> map = bannerService.add(jsonObject);
 
             if (map.containsKey("state")) {
 
-                return "添加新首页滚动图片信息成功";
+
+                return new response(Statecode.SUCCESS).getJsonObject();
             } else {
                 //model.addAttribute("msg", map.get("msg"));
-                return "添加新首页滚动图片信息失败" + map.get("msg") ;
+
+                return new response(Statecode.FAIL).getJsonObject();
             }
 
         }catch (Exception e){
             logger.error("添加新首页滚动图片信息异常:" + e.getMessage());
-            return "添加新首页滚动图片信息异常";
+
+            return new response(Statecode.ABNORMAL).getJsonObject();
         }
 
     }
 
     //更新新首页滚动图片
     @RequestMapping(value = "/updatebanner", method = RequestMethod.POST)
-    public String update(@RequestBody JSONObject jsonObject, HttpServletResponse httpServletResponse){
+    public JSONObject update(@RequestBody JSONObject jsonObject, HttpServletResponse httpServletResponse){
 
         try {
             Map<String, String> map = bannerService.update(jsonObject);
 
             if (map.containsKey("state")) {
-
-                return "更新新首页滚动图片信息成功";
+                return new response(Statecode.SUCCESS).getJsonObject();
             } else {
 
-                return "更新新首页滚动图片信息失败，" + map.get("msg") ;
+                return new response(Statecode.FAIL).getJsonObject();
             }
 
         }catch (Exception e){
             logger.error("更行新首页滚动图片信息异常" + e.getMessage());
-            return "更新新首页滚动图片信息异常";
+
+            return new response(Statecode.ABNORMAL).getJsonObject();
         }
 
     }
 
     //删除新首页滚动图片
     @RequestMapping(value = "/deletebanner", method = RequestMethod.POST)
-    public String delete(@RequestBody JSONObject jsonObject, HttpServletResponse httpServletResponse){
+    public JSONObject delete(@RequestBody JSONObject jsonObject, HttpServletResponse httpServletResponse){
         JSONObject jsonObject1 = new JSONObject();
 
         try {
@@ -79,14 +84,17 @@ public class BannerController {
 
             if (map.containsKey("state")) {
 
-                return "删除新首页滚动图片信息成功";
+
+                return new response(Statecode.SUCCESS).getJsonObject();
             } else {
                 //model.addAttribute("msg", map.get("msg"));
-                return "删除新首页滚动图片信息失败，" + map.get("msg") ;
+
+                return new response(Statecode.FAIL).getJsonObject();
             }
 
         }catch (Exception e){
-            return "删除新首页滚动图片信息异常";
+
+            return new response(Statecode.ABNORMAL).getJsonObject();
         }
 
 

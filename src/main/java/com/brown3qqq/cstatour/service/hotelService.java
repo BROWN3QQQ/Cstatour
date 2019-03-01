@@ -59,7 +59,7 @@ public class hotelService {
             map.put("msg","酒店信息内容不存在");
             return map;
         }else{
-            Hotel newhotel = new Hotel(jsonObject.getString("name"),jsonObject.getString("imgadres"),jsonObject.getString("telnum"),jsonObject.getString("hoteladdress"),jsonObject.getString("motherspot"),jsonObject.getIntValue("index"),jsonObject.getBoolean("hot"),jsonObject.getBoolean("useful"),jsonObject.getString("hotelcontent"));
+            Hotel newhotel = new Hotel(jsonObject.getString("id"),jsonObject.getString("name"),jsonObject.getString("imgadres"),jsonObject.getString("telnum"),jsonObject.getString("hoteladdress"),jsonObject.getString("motherspot"),jsonObject.getIntValue("index"),jsonObject.getBoolean("hot"),jsonObject.getBoolean("useful"),jsonObject.getString("hotelcontent"));
 
             hotelRepository.save(newhotel);
 

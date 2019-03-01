@@ -19,6 +19,8 @@ public class Column {
 
     /*区别是否是母导航，若果状态是true，为母导航，false为子导航*/
     private boolean state;
+    private String path;
+    private String imgadres;
 
     /*若果是母导航，它的MotherColumn只能是主栏目，如果是子导航,它的MotherColumn的id*/
     private String MotherColumn;
@@ -43,6 +45,61 @@ public class Column {
     }
 
     public Column(){}
+
+    public String getImgadres() {
+        return imgadres;
+    }
+
+    public void setImgadres(String imgadres) {
+        this.imgadres = imgadres;
+    }
+
+    public String getPath() {
+        return path;
+    }
+
+    public void setPath(String path) {
+        this.path = path;
+    }
+
+    public Column(String id, String CNname, String ENname, boolean state, String path, String imgadres, String motherColumn, ArrayList<Column> son, int sequence, boolean topnav, String columnContent) {
+        this.id = id;
+        this.CNname = CNname;
+        this.ENname = ENname;
+        this.state = state;
+        this.path = path;
+        this.imgadres = imgadres;
+        MotherColumn = motherColumn;
+        this.son = son;
+        this.sequence = sequence;
+        this.topnav = topnav;
+        ColumnContent = columnContent;
+    }
+
+    public Column(String CNname, String ENname, boolean state, String path, String imgadres, String motherColumn, ArrayList<Column> son, int sequence, boolean topnav, String columnContent) {
+        this.CNname = CNname;
+        this.ENname = ENname;
+        this.state = state;
+        this.path = path;
+        this.imgadres = imgadres;
+        MotherColumn = motherColumn;
+        this.son = son;
+        this.sequence = sequence;
+        this.topnav = topnav;
+        ColumnContent = columnContent;
+    }
+
+    public Column(String CNname, String ENname, boolean state, String imgadres, String motherColumn, ArrayList<Column> son, int sequence, boolean topnav, String columnContent) {
+        this.CNname = CNname;
+        this.ENname = ENname;
+        this.state = state;
+        this.imgadres = imgadres;
+        MotherColumn = motherColumn;
+        this.son = son;
+        this.sequence = sequence;
+        this.topnav = topnav;
+        ColumnContent = columnContent;
+    }
 
     public Column(String id, String CNname, String ENname, boolean state, String motherColumn, ArrayList<Column> son, int sequence, boolean topnav, String columnContent) {
         this.id = id;

@@ -1,6 +1,8 @@
 package com.brown3qqq.cstatour.controller;
 
 import com.alibaba.fastjson.JSONObject;
+import com.brown3qqq.cstatour.auxiliary.response;
+import com.brown3qqq.cstatour.pojo.State.Statecode;
 import com.brown3qqq.cstatour.service.shoppingService;
 import com.brown3qqq.cstatour.service.travelService;
 import org.slf4j.Logger;
@@ -28,51 +30,56 @@ public class TravelController {
 
     //添加新旅游
     @RequestMapping(value = "/addtravel", method = RequestMethod.POST)
-    public String add(@RequestBody JSONObject jsonObject, HttpServletResponse httpServletResponse){
+    public JSONObject add(@RequestBody JSONObject jsonObject, HttpServletResponse httpServletResponse){
 
         try {
             Map<String, String> map = travelService.add(jsonObject);
 
             if (map.containsKey("state")) {
 
-                return "添加旅游信息成功";
+                return new response(Statecode.SUCCESS).getJsonObject();
+
             } else {
                 //model.addAttribute("msg", map.get("msg"));
-                return "添加旅游信息失败" + map.get("msg") ;
+                return new response(Statecode.FAIL).getJsonObject();
+
             }
 
         }catch (Exception e){
             logger.error("添加旅游信息异常:" + e.getMessage());
-            return "添加旅游信息异常";
+            return new response(Statecode.ABNORMAL).getJsonObject();
         }
 
     }
 
     //更新旅游
     @RequestMapping(value = "/updatetravel", method = RequestMethod.POST)
-    public String update(@RequestBody JSONObject jsonObject, HttpServletResponse httpServletResponse){
+    public JSONObject update(@RequestBody JSONObject jsonObject, HttpServletResponse httpServletResponse){
 
         try {
             Map<String, String> map = travelService.update(jsonObject);
 
             if (map.containsKey("state")) {
 
-                return "更新旅游信息成功";
+                return new response(Statecode.SUCCESS).getJsonObject();
+
             } else {
                 //model.addAttribute("msg", map.get("msg"));
-                return "更新旅游信息失败，" + map.get("msg") ;
+                return new response(Statecode.FAIL).getJsonObject();
+
             }
 
         }catch (Exception e){
             logger.error("更行旅游信息异常" + e.getMessage());
-            return "更新旅游信息异常";
+            return new response(Statecode.ABNORMAL).getJsonObject();
+
         }
 
     }
 
     //删除旅游
     @RequestMapping(value = "/deletetravel", method = RequestMethod.POST)
-    public String delete(@RequestBody JSONObject jsonObject, HttpServletResponse httpServletResponse){
+    public JSONObject delete(@RequestBody JSONObject jsonObject, HttpServletResponse httpServletResponse){
         JSONObject jsonObject1 = new JSONObject();
 
         try {
@@ -80,14 +87,16 @@ public class TravelController {
 
             if (map.containsKey("state")) {
 
-                return "删除旅游信息成功";
+                return new response(Statecode.SUCCESS).getJsonObject();
+
             } else {
                 //model.addAttribute("msg", map.get("msg"));
-                return "删除旅游信息失败，" + map.get("msg") ;
+                return new response(Statecode.FAIL).getJsonObject();
             }
 
         }catch (Exception e){
-            return "删除旅游信息异常";
+            return new response(Statecode.ABNORMAL).getJsonObject();
+
         }
 
 

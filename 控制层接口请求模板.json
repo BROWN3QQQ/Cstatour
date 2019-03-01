@@ -109,17 +109,17 @@
 ------------------------------------------------------------------------------------------
 //常用商品管理CRUD请求模板
 //增加商品
-{   
-  	"name":"小面包",
-  	"moneystr":"3847.3845",    
-  	"company":"包",   
-    "imgadres":"/home/www/static/img/sakdlaskjdhskaljd",
-    "index":1,
-    "motherkind":"工艺品",
-    "hot":true,
-    "useful":true,
-    "content":"真是又好吃又大的面包啊"
-}
+	{   
+	  	"name":"小面包",
+	  	"moneystr":"3847.3845",    
+	  	"company":"包",   
+	    "imgadres":"/home/www/static/img/sakdlaskjdhskaljd",
+	    "index":1,
+	    "motherkind":"工艺品",
+	    "hot":true,
+	    "useful":true,
+	    "content":"真是又好吃又大的面包啊"
+	}
 //更新商品
 {   
 	"id":"5c5af68702388c42f02bf73b",

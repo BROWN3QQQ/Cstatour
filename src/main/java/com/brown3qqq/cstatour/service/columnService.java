@@ -9,10 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class columnService {
@@ -24,7 +22,7 @@ public class columnService {
     ColumnRepositoryimpl columnRepositoryimpl;
 
     //添加新栏目
-    public Map<String,String > add(String cnname, String enname, boolean state,String mothercolumn,int sequence,boolean topnav,String columncontent){
+    public Map<String,String > add(String cnname, String enname, boolean state,String path,String imgadres,String mothercolumn,int sequence,boolean topnav,String columncontent){
         //这样设置参数的原因，是我认为这样能降低耦合
         Map<String,String> map = new HashMap<String, String >();
 
@@ -42,7 +40,7 @@ public class columnService {
 
             }
             ArrayList<Column> son = new ArrayList();
-            Column newcolumn = new Column(cnname,enname,state,mothercolumn,son,sequence,topnav,columncontent);
+            Column newcolumn = new Column(cnname,enname,state,path,imgadres,mothercolumn,son,sequence,topnav,columncontent);
 
             columnRepository.save(newcolumn);
             map.put("state","成功");
@@ -60,14 +58,12 @@ public class columnService {
 
             }
             ArrayList<Column> son = new ArrayList();
-//          String id = new String();
 
-            // 这样写是错的，应该有一个自增唯一id，要不然文章该找不到了，但是改变不了了，后面再重构
-            int id = column.getSon().size() + 1;
+            UUID uuid = UUID.randomUUID();
             String ID = "";
-            ID = id + "";
+            ID = uuid.toString() + "";
 
-            Column newcolumn = new Column(ID,cnname,enname,state,mothercolumn,son,sequence,topnav,columncontent);
+            Column newcolumn = new Column(ID,cnname,enname,state,path,imgadres,mothercolumn,son,sequence,topnav,columncontent);
             column.getSon().add(newcolumn);
 
             columnRepository.save(column);
@@ -81,7 +77,7 @@ public class columnService {
     }
 
     //更新栏目内容
-    public Map<String,String > update(String id,String cnname, String enname, boolean state,String mothercolumn,int sequence,boolean topnav,String columncontent){
+    public Map<String,String > update(String id,String cnname, String enname, boolean state,String path,String imgadres,String mothercolumn,int sequence,boolean topnav,String columncontent){
 
         Map<String,String> map = new HashMap<String, String >();
 
@@ -104,10 +100,13 @@ public class columnService {
             column.setENname(enname);
             column.setState(state);
             column.setMotherColumn(mothercolumn);
+                if ( )
             column.setSequence(sequence);
             column.setTopnav(topnav);
             column.setColumnContent(columncontent);
             column.setSon(column.getSon());
+            column.setPath(path);
+            column.setImgadres(imgadres);
 
             columnRepository.save(column);
             map.put("state","成功");
@@ -131,13 +130,49 @@ public class columnService {
                     newcolumn.setENname(enname);
                     newcolumn.setState(state);
                     newcolumn.setMotherColumn(mothercolumn);
+                        if(sequence != newcolumn.getSequence()){
+                            int old = newcolumn.getSequence();
+                            if(old > sequence){
+                                for(Column rescolumn : sonlist){
+                                    if(rescolumn.getSequence() >= sequence && rescolumn.getSequence() < old  ){
+                                        rescolumn.setSequence((rescolumn.getSequence() + 1));
+                                    }
+                                }
+                            }else {
+                                for(Column rescolumn : sonlist){
+                                    if(rescolumn.getSequence() <= sequence && rescolumn.getSequence() > old  ){
+                                        rescolumn.setSequence((rescolumn.getSequence() - 1));
+                                    }
+                                }
+                            }
+                        }
                     newcolumn.setSequence(sequence);
                     newcolumn.setTopnav(topnav);
                     newcolumn.setColumnContent(columncontent);
+
+                    newcolumn.setPath(path);
+                    newcolumn.setImgadres(imgadres);
                 }
             }
 
-            column.setSon(sonlist);
+
+//            ArrayList<Column> newsonlist =
+//            ArrayList<Column>newsonlist = sonlist.stream().sorted((x,y)-> x.getSequence()- y.getSequence()).collect(Collectors)
+
+            //我有点眼睛疼，下次重构代码,这些代码我写的跟屎一样
+            int a = 1 ;
+            ArrayList<Column> newsonlist = new ArrayList<>();
+            for(Column newnewcolumn : sonlist){
+                for(Column newcolumn : sonlist){
+                    if (newcolumn.getSequence() == a){
+                        newsonlist.add(newcolumn);
+                    }
+
+                }
+                a = a + 1;
+            }
+
+            column.setSon(newsonlist);
             columnRepository.save(column);
             map.put("state","成功");
             map.put("msg","更新栏目成功");
@@ -182,7 +217,7 @@ public class columnService {
 
                 if (newcolumn.getId().equals(id)){
                     //删除字段
-                    column.getSon().remove(((Integer.parseInt(id))-1));
+                    column.getSon().remove(newcolumn);
 
                     columnRepository.save(column);
                     map.put("state","成功");

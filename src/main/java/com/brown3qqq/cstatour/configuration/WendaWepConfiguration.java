@@ -21,8 +21,8 @@ public class WendaWepConfiguration implements WebMvcConfigurer {
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
 
-        registry.addInterceptor(loginInterceptor).addPathPatterns("/user/update");
-
-        registry.addInterceptor(adminInterceptor).addPathPatterns("/admin/**");
+//        registry.addInterceptor(loginInterceptor).addPathPatterns("/user/update");
+//
+//        registry.addInterceptor(adminInterceptor).addPathPatterns("/admin/**");
     }
 }
