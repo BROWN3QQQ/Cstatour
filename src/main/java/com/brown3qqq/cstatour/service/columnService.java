@@ -100,7 +100,34 @@ public class columnService {
             column.setENname(enname);
             column.setState(state);
             column.setMotherColumn(mothercolumn);
-                if ( )
+            if(sequence != column.getSequence()){
+                int old = column.getSequence();
+                if(old > sequence){
+
+                    Iterable<Column> iterable = columnRepository.findAll();
+                    Iterator<Column> iterator = iterable.iterator();
+
+                    while (iterator.hasNext()){
+                        Column mocolumn = iterator.next();
+                        if (mocolumn.getSequence() >= sequence && mocolumn.getSequence() < old){
+                            mocolumn.setSequence((mocolumn.getSequence() + 1));
+                        }
+                        columnRepository.save(mocolumn);
+                    }
+                }else {
+
+                    Iterable<Column> iterable = columnRepository.findAll();
+                    Iterator<Column> iterator = iterable.iterator();
+
+                    while (iterator.hasNext()){
+                        Column mocolumn = iterator.next();
+                        if (mocolumn.getSequence() <= sequence && mocolumn.getSequence() > old){
+                            mocolumn.setSequence((mocolumn.getSequence() -1));
+                        }
+                        columnRepository.save(mocolumn);
+                    }
+                }
+            }
             column.setSequence(sequence);
             column.setTopnav(topnav);
             column.setColumnContent(columncontent);
@@ -239,14 +266,30 @@ public class columnService {
         Iterable<Column> iterable = columnRepository.findAll();
         Iterator<Column> iterator = iterable.iterator();
 
-        int sum = 1;
+        List<Column> list = new ArrayList<>();
+        int sum = 0 ;
         while (iterator.hasNext()){
+
             Column column = iterator.next();
-            String SUM="";
+            list.add(column);
+            String SUM = "";
             SUM = sum + "";
-            jsonObject.put(SUM,column);
-            ++sum;
+
+            sum = sum + 1;
         }
+
+        int k = 0;
+        for(int i = 0;i<(sum + 1);i++){
+             for(Column column : list){
+                if (k == column.getSequence() ){
+                    String K = "";
+                    K = k + "";
+                    jsonObject.put(K,column);
+                }
+             }
+             k = k + 1;
+         }
+
 
         return jsonObject;
     }

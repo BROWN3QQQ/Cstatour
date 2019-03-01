@@ -10,10 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
+import java.util.*;
 
 @Service
 public class spotService {
@@ -31,7 +28,7 @@ public class spotService {
             return map;
         }
         BigDecimal money = new BigDecimal(jsonObject.getString("moneystr"));
-        Spot spot = new Spot(jsonObject.getString("name"),jsonObject.getString("imgadres"),jsonObject.getString("motherspot"),jsonObject.getString("spendtime"),jsonObject.getString("moneystr"),money,jsonObject.getString("moneyintroduce"),jsonObject.getString("kind"),jsonObject.getString("timeinterval"),jsonObject.getString("level"),jsonObject.getIntValue("ineex"),jsonObject.getBoolean("hot"),jsonObject.getBoolean("useful"),jsonObject.getString("introduce"),jsonObject.getString("remarks"));
+        Spot spot = new Spot(jsonObject.getString("name"),jsonObject.getString("imgadres"),jsonObject.getString("motherspot"),jsonObject.getString("spendtime"),jsonObject.getString("moneystr"),money,jsonObject.getString("moneyintroduce"),jsonObject.getString("kind"),jsonObject.getString("timeinterval"),jsonObject.getString("level"),jsonObject.getIntValue("index"),jsonObject.getBoolean("hot"),jsonObject.getBoolean("useful"),jsonObject.getString("introduce"),jsonObject.getString("remarks"));
 
         spotRepository.save(spot);
 
@@ -60,7 +57,42 @@ public class spotService {
         }
 
         BigDecimal money = new BigDecimal(jsonObject.getString("moneystr"));
-        Spot newspot = new Spot(jsonObject.getString("id"),jsonObject.getString("name"),jsonObject.getString("imgadres"),jsonObject.getString("motherspot"),jsonObject.getString("spendtime"),jsonObject.getString("moneystr"),money,jsonObject.getString("moneyintroduce"),jsonObject.getString("kind"),jsonObject.getString("timeinterval"),jsonObject.getString("level"),jsonObject.getIntValue("ineex"),jsonObject.getBoolean("hot"),jsonObject.getBoolean("useful"),jsonObject.getString("introduce"),jsonObject.getString("remarks"));
+
+
+        int old = spot.getIndex();
+        int newindex = jsonObject.getIntValue("index");
+        if (old != newindex){
+            if (old > newindex){
+                Iterable<Spot> iterable = spotRepository.findAll();
+                Iterator<Spot> iterator = iterable.iterator();
+
+
+                while (iterator.hasNext()){
+                    Spot newspot = iterator.next();
+                    if (newspot.getIndex() >= newindex && newspot.getIndex() < old){
+                        newspot.setIndex((newspot.getIndex() + 1));
+                    }
+                    spotRepository.save(newspot);
+                }
+
+            }else {
+                Iterable<Spot> iterable = spotRepository.findAll();
+                Iterator<Spot> iterator = iterable.iterator();
+
+                while (iterator.hasNext()){
+                    Spot newspot = iterator.next();
+                    if (newspot.getIndex() <= newindex && newspot.getIndex() > old){
+                        newspot.setIndex((newspot.getIndex() - 1));
+                    }
+                    spotRepository.save(newspot);
+                }
+
+            }
+
+
+        }
+
+        Spot newspot = new Spot(jsonObject.getString("id"),jsonObject.getString("name"),jsonObject.getString("imgadres"),jsonObject.getString("motherspot"),jsonObject.getString("spendtime"),jsonObject.getString("moneystr"),money,jsonObject.getString("moneyintroduce"),jsonObject.getString("kind"),jsonObject.getString("timeinterval"),jsonObject.getString("level"),jsonObject.getIntValue("index"),jsonObject.getBoolean("hot"),jsonObject.getBoolean("useful"),jsonObject.getString("introduce"),jsonObject.getString("remarks"));
 
         spotRepository.save(newspot);
 
@@ -105,13 +137,24 @@ public class spotService {
         Iterable<Spot> iterable = spotRepository.findAll();
         Iterator<Spot> iterator = iterable.iterator();
 
-        int sum = 1;
+        List<Spot> list = new ArrayList<>();
+        int sum = 0 ;
         while (iterator.hasNext()){
             Spot spot = iterator.next();
-            String SUM="";
-            SUM = sum + "";
-            jsonObject.put(SUM,spot);
-            ++sum;
+            list.add(spot);
+            sum = sum + 1;
+        }
+
+        int k = 1;
+        for(int i = 0;i<sum;i++){
+            for(Spot spot : list){
+                if (k == spot.getIndex() ){
+                    String K = "";
+                    K = k + "";
+                    jsonObject.put(K,spot);
+                }
+            }
+            k = k + 1;
         }
 
         return jsonObject;

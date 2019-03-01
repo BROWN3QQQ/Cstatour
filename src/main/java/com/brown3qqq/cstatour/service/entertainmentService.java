@@ -60,7 +60,7 @@ public class entertainmentService{
         }else{
             BigDecimal money = new BigDecimal(jsonObject.getString("moneystr"));
 
-            Entertainment newentertainment = new Entertainment(jsonObject.getString("id"),jsonObject.getString("name"),jsonObject.getString("imgadres"),jsonObject.getString("motherspot"),jsonObject.getString("spendtime"),jsonObject.getString("moneystr"),money,jsonObject.getString("moneyintroduce"),jsonObject.getString("timeinterval"),jsonObject.getString("level"),jsonObject.getIntValue("ineex"),jsonObject.getBoolean("hot"),jsonObject.getBoolean("useful"),jsonObject.getString("introduce"),jsonObject.getString("remarks"));
+            Entertainment newentertainment = new Entertainment(jsonObject.getString("id"),jsonObject.getString("name"),jsonObject.getString("imgadres"),jsonObject.getString("motherspot"),jsonObject.getString("spendtime"),jsonObject.getString("moneystr"),money,jsonObject.getString("moneyintroduce"),jsonObject.getString("timeinterval"),jsonObject.getString("level"),jsonObject.getIntValue("index"),jsonObject.getBoolean("hot"),jsonObject.getBoolean("useful"),jsonObject.getString("introduce"),jsonObject.getString("remarks"));
 
             entertainmentRepository.save(newentertainment);
 
