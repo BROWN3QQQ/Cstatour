@@ -7,6 +7,7 @@ import com.brown3qqq.cstatour.dao.HotelRepository;
 import com.brown3qqq.cstatour.dao.OrderRepository;
 import com.brown3qqq.cstatour.pojo.CommdityInfo;
 import com.brown3qqq.cstatour.pojo.Kind;
+import com.brown3qqq.cstatour.pojo.Order;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
 
@@ -55,46 +56,40 @@ public class oderService {
         } catch (NumberFormatException e) {
             e.printStackTrace();
         }
+        Order order = new Order(jsonObject.getString("name"),new Date(),jsonObject.getString("moneystr"),new BigDecimal(jsonObject.getString("moneystr")),"未付款",jsonObject.getString("getman"),jsonObject.getString("getmannum"),jsonObject.getString("getmanadres"),sonlist,null,null,null,null,null);
+
+        orderRepository.save(order);
+        map.put("msg","操作成功");
+        map.put("state","成功");
+        return map;
+
+
     }
     //更新类别
     public Map<String,String > update(JSONObject jsonObject) {
-
-
         Map<String, String> map = new HashMap<String, String>();
 
-        //过滤字段是否为空
-        if (StringUtils.isEmpty(jsonObject.getString("name"))) {
-            map.put("msg", "类名不能为空");
+        if (orderRepository.findById(jsonObject.getString("id")).isPresent()){
+            Order order = orderRepository.findById(jsonObject.getString("id")).get();
+
+            order.setStateinfo(jsonObject.getString("stateinfo"));
+            order.setCzexpired(new Date());
+            order.setCzman(jsonObject.getString("czman"));
+            order.setIpadres(jsonObject.getString("ipadres"));
+            order.setRemarks(jsonObject.getString("remarks"));
+
+            order.setState(jsonObject.getString("state"));
+
+
+            orderRepository.save(order);
+            map.put("msg","操作成功");
+            map.put("state","成功");
+            return map;
+        }else{
+            map.put("msg","操作失败");
             return map;
         }
 
-        Kind motherkind = kindRepository.findById(jsonObject.getString("motherid")).get();
-
-        if (motherkind == null) {
-            map.put("msg", "母类不存在");
-            return map;
-        }
-
-        ArrayList<Kind> sonlist = motherkind.getSonkind();
-
-        for (Kind newkind : sonlist) {
-
-            if (newkind.getId().equals(jsonObject.getString("id"))) {
-                //更新字段
-                newkind.setName(jsonObject.getString("name"));
-                newkind.setContent(jsonObject.getString("content"));
-                newkind.setIndex(jsonObject.getIntValue("index"));
-                newkind.setImgadres(jsonObject.getString("imgadres"));
-            }
-        }
-
-        motherkind.setSonkind(sonlist);
-        kindRepository.save(motherkind);
-
-        map.put("state", "成功");
-        map.put("msg", "更新栏目成功");
-
-        return map;
     }
 
     //删除类别
@@ -102,27 +97,15 @@ public class oderService {
 
         Map<String, String> map = new HashMap<String, String>();
 
-        Kind motherkind = kindRepository.findById(jsonObject.getString("motherid")).get();
-
-        if (motherkind == null) {
-            map.put("msg", " 母类不存在");
+        if (orderRepository.findById(jsonObject.getString("id")).isPresent()){
+            orderRepository.deleteById(jsonObject.getString("id"));
+            map.put("msg","操作成功");
+            map.put("state","成功");
             return map;
-
+        }else{
+            map.put("msg","操作失败");
+            return map;
         }
-        ArrayList<Kind> sonlist = motherkind.getSonkind();
-
-        for (Kind newkind : sonlist) {
-
-            if (newkind.getId().equals(jsonObject.getString("id"))) {
-                //更新字段
-                motherkind.getSonkind().remove(newkind);
-                kindRepository.save(motherkind);
-                map.put("state", "成功");
-                map.put("msg", "删除栏目成功");
-                return map;
-            }
-        }
-        return map;
     }
 
 
@@ -131,14 +114,14 @@ public class oderService {
 
         JSONObject jsonObject = new JSONObject();
 
-        Iterable<Kind> iterable = kindRepository.findAll();
-        Iterator<Kind> iterator = iterable.iterator();
+        Iterable<Order> iterable = orderRepository.findAll();
+        Iterator<Order> iterator = iterable.iterator();
         int sum = 1;
         while (iterator.hasNext()){
-            Kind kind = iterator.next();
+            Order order = iterator.next();
             String SUM="";
             SUM = sum + "";
-            jsonObject.put(SUM,kind);
+            jsonObject.put(SUM,order);
             ++sum;
         }
 
