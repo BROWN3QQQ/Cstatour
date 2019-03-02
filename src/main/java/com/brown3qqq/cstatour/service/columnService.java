@@ -279,16 +279,19 @@ public class columnService {
         }
 
         int k = 0;
-        for(int i = 0;i<(sum + 1);i++){
-             for(Column column : list){
-                if (k == column.getSequence() ){
-                    String K = "";
-                    K = k + "";
-                    jsonObject.put(K,column);
+        for (int u = 0;u<sum;u++){
+            for(int i = 0;i<(sum + 1);i++){
+                for(Column column : list){
+                    if (k == column.getSequence() ){
+                        String K = "";
+                        K = k + "";
+                        jsonObject.put(K,column);
+                    }
                 }
-             }
-             k = k + 1;
-         }
+                k = k + 1;
+            }
+        }
+
 
 
         return jsonObject;

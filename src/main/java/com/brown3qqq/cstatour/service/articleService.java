@@ -7,14 +7,12 @@ import com.brown3qqq.cstatour.dao.Impl.ArticleRepositoryimpl;
 import com.brown3qqq.cstatour.dao.Impl.ColumnRepositoryimpl;
 import com.brown3qqq.cstatour.pojo.Article;
 import com.brown3qqq.cstatour.pojo.Column;
+import com.brown3qqq.cstatour.pojo.Spot;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
+import java.util.*;
 
 @Service
 public class articleService {
@@ -56,6 +54,7 @@ public class articleService {
                 Article newarticle = new Article(jsonObject.getString("name"),mothercolumn,null,jsonObject.getString("imgadres"),jsonObject.getBoolean("stick"),jsonObject.getIntValue("index"),jsonObject.getString("content"));
 
                 articleRepository.save(newarticle);
+                map.put("state","成功");
                 map.put("msg","添加文章成功");
                 return map;
             }else {
@@ -116,22 +115,57 @@ public class articleService {
 
         //更新字段
         article.setName(jsonObject.getString("name"));
-        if(StringUtils.isEmpty(jsonObject.getString("soncolumn")) ){
-            //母类下文章
-            Column mothercolumn = columnRepository.findById(jsonObject.getString("mothercolumn").toString()).get();
-                article.setMonthercolumn(mothercolumn);
-                article.setSoncolumn(null);
-        }else{
-            //母类加子类文章
+            try{
+                ArrayList<Column>sonlist = columnRepository.findById(jsonObject.getString("mothercolumn")).get().getSon();
+                String id = jsonObject.getString("soncolumn");
 
-            Column mothercolumn = columnRepository.findById(jsonObject.getString("mothercolumn").toString()).get();
+                for(Column newcolumn : sonlist){
 
-            //这样写，很容易出毛病
-                article.setMonthercolumn(mothercolumn);
-                article.setSoncolumn(mothercolumn.getSon().get(jsonObject.getIntValue("sonmothercolumn")));
-        }
+                    if (newcolumn.getId().equals(id)){
+
+                        article.setSoncolumn(newcolumn);
+                    }
+                }
+            }catch (Exception e){
+
+            }
+
+
+
+
         article.setImgadres(jsonObject.getString("imgadres"));
         article.setStick(jsonObject.getBoolean("stick"));
+
+        int old = article.getIndex();
+        int newindex = jsonObject.getIntValue("index");
+
+        if (old != newindex) {
+            if (old > newindex) {
+                Iterable<Article> iterable = articleRepository.findAll();
+                Iterator<Article> iterator = iterable.iterator();
+
+                while (iterator.hasNext()){
+                    Article newarticle = iterator.next();
+                    if (newarticle.getIndex() >= newindex && newarticle.getIndex() < old){
+                        newarticle.setIndex((newarticle.getIndex() + 1));
+                    }
+                    articleRepository.save(newarticle);
+                }
+
+            } else {
+
+                Iterable<Article> iterable = articleRepository.findAll();
+                Iterator<Article> iterator = iterable.iterator();
+
+                while (iterator.hasNext()){
+                    Article newarticle = iterator.next();
+                    if (newarticle.getIndex() <= newindex && newarticle.getIndex() > old){
+                        newarticle.setIndex((newarticle.getIndex() - 1));
+                    }
+                    articleRepository.save(newarticle);
+                }
+            }
+        }
         article.setIndex(jsonObject.getIntValue("index"));
         article.setContent(jsonObject.getString("content"));
 
@@ -177,14 +211,29 @@ public class articleService {
         Iterable<Article> iterable = articleRepository.findAll();
         Iterator<Article> iterator = iterable.iterator();
 
-        int sum = 1;
+        List<Article> list = new ArrayList<>();
+        int sum = 0;
         while (iterator.hasNext()){
             Article article = iterator.next();
-            String SUM="";
-            SUM = sum + "";
-            jsonObject.put(SUM,article);
-            ++sum;
+          list.add(article);
+          sum = sum + 1;
         }
+
+        int k = 1;
+        //我会回来重构这段狗b的代码的，人为扩大取值，会很慢，但是三行代码解决，这就是之前不用脑子想好咋写代码的后果
+        for(Article newarticle : list){
+            for(Article nnewarticle : list){
+                for(Article article : list){
+                    if (k == article.getIndex() ){
+                        String K = "";
+                        K = k + "";
+                        jsonObject.put(K,article);
+                    }
+                }
+                k = k + 1;
+            }
+        }
+
 
         return jsonObject;
     }

@@ -102,8 +102,9 @@ public class userService {
         String ticket;
         if (userName.equals(adminname.ADMINNAME)){
             ticket = addLoginTicket(userName,1);
+            map.put("admin","admin");
         }else{
-            ticket = addLoginTicket(userName,1);
+            ticket = addLoginTicket(userName,0);
         }
 
     //注册完成下发ticket之后自动登录

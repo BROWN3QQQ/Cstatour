@@ -2,15 +2,14 @@ package com.brown3qqq.cstatour.service;
 
 import com.alibaba.fastjson.JSONObject;
 import com.brown3qqq.cstatour.dao.HotelRepository;
+import com.brown3qqq.cstatour.pojo.Column;
 import com.brown3qqq.cstatour.pojo.Hotel;
 import com.brown3qqq.cstatour.pojo.Travel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
+import java.util.*;
 
 /**
  * @Classname hotelService
@@ -59,6 +58,34 @@ public class hotelService {
             map.put("msg","酒店信息内容不存在");
             return map;
         }else{
+
+            int old = hotelRepository.findById(jsonObject.getString("id")).get().getIndex();
+            int newindex = jsonObject.getIntValue("index");
+                if (old != newindex){
+                    if (old >newindex){
+                        Iterable<Hotel> iterable = hotelRepository.findAll();
+                        Iterator<Hotel> iterator = iterable.iterator();
+                        while (iterator.hasNext()){
+                            Hotel newhotel = iterator.next();
+                            if (newhotel.getIndex() >= newindex && newhotel.getIndex() < old){
+                                newhotel.setIndex((newhotel.getIndex()+ 1));
+                            }
+                            hotelRepository.save(newhotel);
+                        }
+
+                    }else {
+
+                        Iterable<Hotel> iterable = hotelRepository.findAll();
+                        Iterator<Hotel> iterator = iterable.iterator();
+                        while (iterator.hasNext()){
+                            Hotel newhotel = iterator.next();
+                            if (newhotel.getIndex() <= newindex && newhotel.getIndex() > old){
+                                newhotel.setIndex((newhotel.getIndex()- 1));
+                            }
+                            hotelRepository.save(newhotel);
+                        }
+                    }
+                }
             Hotel newhotel = new Hotel(jsonObject.getString("id"),jsonObject.getString("name"),jsonObject.getString("imgadres"),jsonObject.getString("telnum"),jsonObject.getString("hoteladdress"),jsonObject.getString("motherspot"),jsonObject.getIntValue("index"),jsonObject.getBoolean("hot"),jsonObject.getBoolean("useful"),jsonObject.getString("hotelcontent"));
 
             hotelRepository.save(newhotel);
@@ -104,16 +131,29 @@ public class hotelService {
         Iterable<Hotel> iterable = hotelRepository.findAll();
         Iterator<Hotel> iterator = iterable.iterator();
 
-        int sum = 1;
+        List<Hotel> list = new ArrayList<>();
+        int sum = 0;
+
         while (iterator.hasNext()){
 
             Hotel hotel = iterator.next();
-            String SUM="";
-            SUM = sum + "";
-            jsonObject.put(SUM,hotel);
-            ++sum;
-
+            list.add(hotel);
+            sum = sum + 1;
         }
+        int k = 1;
+        for (int u = 0; u < (sum + 1);u++){
+            for(int i = 0;i<(sum + 1);i++){
+                for(Hotel hotel : list){
+                    if (k == hotel.getIndex() ){
+                        String K = "";
+                        K = k + "";
+                        jsonObject.put(K,hotel);
+                    }
+                }
+                k = k + 1;
+            }
+        }
+
 
         return jsonObject;
     }

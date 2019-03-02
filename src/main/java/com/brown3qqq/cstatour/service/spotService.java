@@ -93,9 +93,7 @@ public class spotService {
         }
 
         Spot newspot = new Spot(jsonObject.getString("id"),jsonObject.getString("name"),jsonObject.getString("imgadres"),jsonObject.getString("motherspot"),jsonObject.getString("spendtime"),jsonObject.getString("moneystr"),money,jsonObject.getString("moneyintroduce"),jsonObject.getString("kind"),jsonObject.getString("timeinterval"),jsonObject.getString("level"),jsonObject.getIntValue("index"),jsonObject.getBoolean("hot"),jsonObject.getBoolean("useful"),jsonObject.getString("introduce"),jsonObject.getString("remarks"));
-
         spotRepository.save(newspot);
-
 
         //更新字段
         map.put("state","成功");
@@ -147,15 +145,18 @@ public class spotService {
 
         int k = 1;
         for(int i = 0;i<sum;i++){
-            for(Spot spot : list){
-                if (k == spot.getIndex() ){
-                    String K = "";
-                    K = k + "";
-                    jsonObject.put(K,spot);
+            for(int j = 0;j<sum;j++){
+                for(Spot spot : list){
+                    if (k == spot.getIndex() ){
+                        String K = "";
+                        K = k + "";
+                        jsonObject.put(K,spot);
+                    }
                 }
+                k = k + 1;
             }
-            k = k + 1;
         }
+
 
         return jsonObject;
     }

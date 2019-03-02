@@ -10,10 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
+import java.util.*;
 
 @Service
 public class commodityService {
@@ -79,6 +76,38 @@ public class commodityService {
         commodity.setMoneystr(jsonObject.getString("moneystr"));
         commodity.setMotherkind(jsonObject.getString("motherkind"));
         commodity.setImgadres(jsonObject.getString("imgadres"));
+
+        int old = commodity.getIndex();
+        int newindex = jsonObject.getIntValue("index");
+
+        if (old != newindex){
+            if (old > newindex){
+                Iterable<Commodity> iterable = commodityrepository.findAll();
+                Iterator<Commodity> iterator = iterable.iterator();
+
+                while (iterator.hasNext()){
+                    Commodity newcommodity = iterator.next();
+                    if (newcommodity.getIndex() >= newindex && newcommodity.getIndex()< old){
+                        newcommodity.setIndex((newcommodity.getIndex() + 1));
+                    }
+                    commodityrepository.save(newcommodity);
+                }
+
+
+            }else{
+                Iterable<Commodity> iterable = commodityrepository.findAll();
+                Iterator<Commodity> iterator = iterable.iterator();
+
+                while (iterator.hasNext()){
+                    Commodity newcommodity = iterator.next();
+                    if (newcommodity.getIndex() <= newindex && newcommodity.getIndex()> old){
+                        newcommodity.setIndex((newcommodity.getIndex() - 1));
+                    }
+                    commodityrepository.save(newcommodity);
+                }
+
+            }
+        }
         commodity.setIndex(jsonObject.getIntValue("index"));
 
         commodityrepository.save(commodity);
@@ -115,15 +144,28 @@ public class commodityService {
 
         Iterable<Commodity> iterable = commodityrepository.findAll();
         Iterator<Commodity> iterator = iterable.iterator();
-        int sum = 1;
+
+        List<Commodity> list = new ArrayList<>();
+        int sum = 0;
         while (iterator.hasNext()){
             Commodity commodity = iterator.next();
-
-            String SUM="";
-            SUM = sum + "";
-            jsonObject.put(SUM,commodity);
-            ++sum;
+            list.add(commodity);
+            sum = sum + 1;
         }
+        int k = 1;
+        for (int u = 0;u<sum;u++){
+            for(int i = 0;i<sum;i++){
+                for(Commodity commodity : list){
+                    if (k == commodity.getIndex() ){
+                        String K = "";
+                        K = k + "";
+                        jsonObject.put(K,commodity);
+                    }
+                }
+                k = k + 1;
+            }
+        }
+
         return jsonObject;
     }
 }
