@@ -1,16 +1,16 @@
 package com.brown3qqq.cstatour.service;
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson.TypeReference;
 import com.brown3qqq.cstatour.dao.HotelRepository;
 import com.brown3qqq.cstatour.dao.OrderRepository;
+import com.brown3qqq.cstatour.pojo.CommdityInfo;
 import com.brown3qqq.cstatour.pojo.Kind;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
+import java.util.*;
 
 /**
  * @Classname oderService
@@ -29,40 +29,17 @@ public class oderService {
 
         //过滤字段是否为空
         if(StringUtils.isEmpty(jsonObject.getString("name")) ){
-            map.put("msg", "类名不能为空");
+            map.put("msg", "不能为空");
             return map;
         }
-        if (jsonObject.getBoolean("state")){
-            int sum = 0;
-            ArrayList<Kind> sonkind = new ArrayList<Kind>();
-            Kind kind = new Kind(jsonObject.getString("name"),jsonObject.getBoolean("state"),sonkind,jsonObject.getIntValue("index"),jsonObject.getString("imgadres"),null,sum,jsonObject.getString("content"));
+        JSONObject jsonObjectson = jsonObject.getJSONObject("commdityinfo");
+        ArrayList<CommdityInfo> sonlist = new ArrayList<CommdityInfo>();
 
-            kindRepository.save(kind);
-            map.put("state","添加栏目成功");
-            map.put("msg","添加栏目成功");
+        String sum = jsonObject.getString("sum");
+        
 
-            return map;
-        }else{
-            Kind moterkind = kindRepository.findById(jsonObject.getString("motherid")).get();
-            if(StringUtils.isEmpty(jsonObject.getString("name")) ){
-                map.put("msg", "母类不存在");
-                return map;
-            }
-            int sum = moterkind.getSum() + 1;
-            moterkind.setSum(sum);
-            String id = "" + sum;
 
-            Kind sonlkind  = new Kind(id,jsonObject.getString("name"),jsonObject.getBoolean("state"),null,jsonObject.getIntValue("index"),jsonObject.getString("imgadres"),jsonObject.getString("motherid"),0,jsonObject.getString("content"));
 
-            moterkind.getSonkind().add(sonlkind);
-
-            kindRepository.save(moterkind);
-
-            map.put("state","添加栏目成功");
-            map.put("msg","添加栏目成功");
-
-            return map;
-        }
 
 
 
