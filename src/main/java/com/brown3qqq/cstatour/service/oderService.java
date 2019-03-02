@@ -10,6 +10,7 @@ import com.brown3qqq.cstatour.pojo.Kind;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
 
+import java.math.BigDecimal;
 import java.util.*;
 
 /**
@@ -34,15 +35,26 @@ public class oderService {
         }
         JSONObject jsonObjectson = jsonObject.getJSONObject("commdityinfo");
         ArrayList<CommdityInfo> sonlist = new ArrayList<CommdityInfo>();
+        String sumstr = jsonObject.getString("sum");
+        int sum;
+        try {
+            sum = Integer.parseInt(sumstr);
+            for (int i = 1;i<(sum+1);i++){
+                  String I ="";
+                  I = i + "";
+               String name =  jsonObjectson.getJSONObject(I).getString("name");
+               String moneystr = jsonObjectson.getJSONObject(I).getString("moneystr");
+               BigDecimal money = new BigDecimal(jsonObject.getString("moneystr"));
+               int thesum = jsonObjectson.getJSONObject(I).getIntValue("sum");
+               String measurement = jsonObjectson.getJSONObject(I).getString("measurement");
+               String imgadres = jsonObject.getJSONObject(I).getString("imgadres");
 
-        String sum = jsonObject.getString("sum");
-        
-
-
-
-
-
-
+               CommdityInfo commdityInfo = new CommdityInfo(I,name,moneystr,money,thesum,measurement);
+               sonlist.add(commdityInfo);
+            }
+        } catch (NumberFormatException e) {
+            e.printStackTrace();
+        }
     }
     //更新类别
     public Map<String,String > update(JSONObject jsonObject) {

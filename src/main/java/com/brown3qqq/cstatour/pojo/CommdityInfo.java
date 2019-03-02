@@ -17,6 +17,7 @@ public class CommdityInfo {
     private String id;
     private String name;
 
+    private String imgadres;
     private String moneystr;
     private BigDecimal money;
 
@@ -32,6 +33,25 @@ public class CommdityInfo {
         this.money = money;
         this.sum = sum;
         this.measurement = measurement;
+    }
+
+    public CommdityInfo(String id, String name, String imgadres, String moneystr, BigDecimal money, int sum, String measurement) {
+        this.id = id;
+        this.name = name;
+        this.imgadres = imgadres;
+        this.moneystr = moneystr;
+        this.money = money;
+        this.sum = sum;
+        this.measurement = measurement;
+    }
+
+
+    public String getImgadres() {
+        return imgadres;
+    }
+
+    public void setImgadres(String imgadres) {
+        this.imgadres = imgadres;
     }
 
     public String getId() {

@@ -266,9 +266,7 @@
 //添加商品
 {
     "name":"商品",
-    "imgadres1":"/home/order/...",
-    "imgadres2":"/home/order/...",
-    "imgadres3":"/home/order/...",
+
     //订单总价格
     "moneystr":"2341324",
     //收获人
@@ -280,22 +278,25 @@
             "name":"豪华海景大床房",  //商品名称
             "moneystr":"700.23",   //单价
             "sum":1,     //数量
+            "imgadres":"/home/order/....",
             "measurement":"间"    //计量单位
         },
          "2":{
             "name":"豪华海景大床房",  //商品名称
             "moneystr":"700.23",   //单价
             "sum":1,     //数量
+            "imgadres":"/home/order/....",
             "measurement":"间"    //计量单位
         },
          "3":{
             "name":"豪华海景大床房",  //商品名称
             "moneystr":"700.23",   //单价
             "sum":1,     //数量
+            "imgadres":"/home/order/....",
             "measurement":"间"    //计量单位
         }
 
     },
-    "sum":"3"   //商品数量
+    "sum":"3"   //上述商品数量
 
 }

@@ -18,10 +18,6 @@ public class Order {
 
     //订单创建时间
     private Date expired;
-    //图片路径
-    private String imgadres1;
-    private String imgadres2;
-    private String imgadres3;
 
 
     private String moneystr;
@@ -45,12 +41,10 @@ public class Order {
 
     public Order(){}
 
-    public Order(String name, Date expired, String imgadres1, String imgadres2, String imgadres3, String moneystr, BigDecimal money, String state, String getman, String getmannum, String getmanadres, List<CommdityInfo> list, String stateinfo, Date czexpired, String czman, String ipadres, String remarks) {
+    public Order(String id, String name, Date expired, String moneystr, BigDecimal money, String state, String getman, String getmannum, String getmanadres, List<CommdityInfo> list, String stateinfo, Date czexpired, String czman, String ipadres, String remarks) {
+        this.id = id;
         this.name = name;
         this.expired = expired;
-        this.imgadres1 = imgadres1;
-        this.imgadres2 = imgadres2;
-        this.imgadres3 = imgadres3;
         this.moneystr = moneystr;
         this.money = money;
         this.state = state;
@@ -65,13 +59,9 @@ public class Order {
         this.remarks = remarks;
     }
 
-    public Order(String id, String name, Date expired, String imgadres1, String imgadres2, String imgadres3, String moneystr, BigDecimal money, String state, String getman, String getmannum, String getmanadres, List<CommdityInfo> list, String stateinfo, Date czexpired, String czman, String ipadres, String remarks) {
-        this.id = id;
+    public Order(String name, Date expired, String moneystr, BigDecimal money, String state, String getman, String getmannum, String getmanadres, List<CommdityInfo> list, String stateinfo, Date czexpired, String czman, String ipadres, String remarks) {
         this.name = name;
         this.expired = expired;
-        this.imgadres1 = imgadres1;
-        this.imgadres2 = imgadres2;
-        this.imgadres3 = imgadres3;
         this.moneystr = moneystr;
         this.money = money;
         this.state = state;
@@ -110,29 +100,7 @@ public class Order {
         this.expired = expired;
     }
 
-    public String getImgadres1() {
-        return imgadres1;
-    }
 
-    public void setImgadres1(String imgadres1) {
-        this.imgadres1 = imgadres1;
-    }
-
-    public String getImgadres2() {
-        return imgadres2;
-    }
-
-    public void setImgadres2(String imgadres2) {
-        this.imgadres2 = imgadres2;
-    }
-
-    public String getImgadres3() {
-        return imgadres3;
-    }
-
-    public void setImgadres3(String imgadres3) {
-        this.imgadres3 = imgadres3;
-    }
 
     public String getMoneystr() {
         return moneystr;
