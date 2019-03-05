@@ -1,0 +1,111 @@
+[
+  {
+    "title": "首页",
+    "path": "/",
+    "sort":"1"
+  },
+  {
+    "title": "出行需知",
+    "path": "/tripKnow/0",
+    "sort":"1",
+    "children": [{
+      "title": "注意事项",
+      "path": "/tripKnow/1",
+      "sort":"1"
+    },
+      {
+        "title": "新闻咨询",
+        "path": "/tripKnow/2",
+        "sort":"2"
+      },
+      {
+        "title": "生活日常",
+        "path": "/tripKnow/3",
+        "sort":"3"
+      },
+      {
+        "title": "文化节日",
+        "path": "/tripKnow/4",
+        "sort":"4"
+      }
+    ]
+  },
+  {
+    "title": "旅游",
+    "path": "/travel/0",
+    "sort":"1",
+    "children": [{
+      "title": "中国参团",
+      "path": "/travel/1",
+      "sort":"1"
+    },
+      {
+        "title": "美国参团",
+        "path": "/travel/2",
+        "sort":"2"
+      },
+      {
+        "title": "主题游",
+        "path": "/travel/3",
+        "sort":"1"
+      }
+    ]
+  },
+  {
+    "title": "酒店",
+    "path": "/hotel",
+    "sort":"1"
+  },
+  {
+    "title": "攻略景点",
+    "path": "/scenery/0",
+    "sort":"1",
+    "children": [{
+      "title": "景点介绍",
+      "path": "/scenery/1",
+      "sort":"1"
+      },
+      {
+        "title": "游记攻略",
+        "path": "/scenery/2",
+        "sort":"1"
+      },
+      {
+        "title": "路线介绍",
+        "path": "/scenery/3",
+        "sort":"1"
+      },
+      {
+        "title": "购物介绍",
+        "path": "/scenery/4",
+        "sort":"1"
+      },
+      {
+        "title": "餐饮介绍",
+        "path": "/scenery/5",
+        "sort":"1"
+      }
+    ]
+  },
+  {
+    "title": "联系我们",
+    "path": "/connect/0",
+    "sort":"1",
+    "children": [{
+      "title": "介绍",
+      "path": "/connect/1",
+      "sort":"1"
+      },
+      {
+        "title": "招聘人才",
+        "path": "/connect/2",
+        "sort":"1"
+      },
+      {
+        "title": "预定",
+        "path": "/connect/3",
+        "sort":"1"
+      }
+    ]
+  }
+]

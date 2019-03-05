@@ -1,0 +1,9 @@
+{
+  "user":
+  {
+    "user":"admin",
+    "password":123,
+    "token":"abc",
+    "msg":"1"
+  }
+}

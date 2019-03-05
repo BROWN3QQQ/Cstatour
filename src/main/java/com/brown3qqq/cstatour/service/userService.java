@@ -100,7 +100,7 @@ public class userService {
         }
 
         String ticket;
-        if (userName.equals(adminname.ADMINNAME)){
+        if (userName.equals("admin")){
             ticket = addLoginTicket(userName,1);
             map.put("admin","admin");
         }else{

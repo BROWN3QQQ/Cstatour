@@ -49,7 +49,7 @@ public class UserController {
                 Cookie cookie = new Cookie("ticket",map.get("ticket").toString());
                 cookie.setPath("/");
                 httpresponse.addCookie(cookie);
-                if (map.containsKey("adimn")){
+                if (map.containsKey("admin")){
                     return new response(Statecode.ADMIN).getJsonObject();
                 }
 //                return "登录成功，下发cookie为："+ map.get("ticket");

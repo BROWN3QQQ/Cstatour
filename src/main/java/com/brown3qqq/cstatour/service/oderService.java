@@ -9,6 +9,7 @@ import com.brown3qqq.cstatour.pojo.CommdityInfo;
 import com.brown3qqq.cstatour.pojo.Kind;
 import com.brown3qqq.cstatour.pojo.Order;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
 import java.math.BigDecimal;
@@ -20,6 +21,7 @@ import java.util.*;
  * @Date 2019/3/2 10:58
  * @Created by CQ
  */
+@Service
 public class oderService {
     @Autowired
     OrderRepository orderRepository;
@@ -34,11 +36,13 @@ public class oderService {
             map.put("msg", "不能为空");
             return map;
         }
-        JSONObject jsonObjectson = jsonObject.getJSONObject("commdityinfo");
-        ArrayList<CommdityInfo> sonlist = new ArrayList<CommdityInfo>();
-        String sumstr = jsonObject.getString("sum");
-        int sum;
+
+
         try {
+            JSONObject jsonObjectson = jsonObject.getJSONObject("commdityinfo");
+            ArrayList<CommdityInfo> sonlist = new ArrayList<CommdityInfo>();
+            String sumstr = jsonObject.getString("sum");
+            int sum;
             sum = Integer.parseInt(sumstr);
             for (int i = 1;i<(sum+1);i++){
                   String I ="";
@@ -48,21 +52,25 @@ public class oderService {
                BigDecimal money = new BigDecimal(jsonObject.getString("moneystr"));
                int thesum = jsonObjectson.getJSONObject(I).getIntValue("sum");
                String measurement = jsonObjectson.getJSONObject(I).getString("measurement");
-               String imgadres = jsonObject.getJSONObject(I).getString("imgadres");
 
-               CommdityInfo commdityInfo = new CommdityInfo(I,name,moneystr,money,thesum,measurement);
+               String imgadres = jsonObjectson.getJSONObject(I).getString("imgadres");
+                System.out.println(imgadres);
+
+               CommdityInfo commdityInfo = new CommdityInfo(I,name,imgadres,moneystr,money,thesum,measurement);
                sonlist.add(commdityInfo);
+
             }
-        } catch (NumberFormatException e) {
+            Order order = new Order(jsonObject.getString("name"),new Date(),jsonObject.getString("moneystr"),new BigDecimal(jsonObject.getString("moneystr")),"未付款",jsonObject.getString("getman"),jsonObject.getString("getmannum"),jsonObject.getString("getmanadres"),sonlist,null,null,null,null,null);
+
+            orderRepository.save(order);
+            map.put("msg","操作成功");
+            map.put("state","成功");
+            return map;
+        } catch (Exception e) {
             e.printStackTrace();
         }
-        Order order = new Order(jsonObject.getString("name"),new Date(),jsonObject.getString("moneystr"),new BigDecimal(jsonObject.getString("moneystr")),"未付款",jsonObject.getString("getman"),jsonObject.getString("getmannum"),jsonObject.getString("getmanadres"),sonlist,null,null,null,null,null);
 
-        orderRepository.save(order);
-        map.put("msg","操作成功");
-        map.put("state","成功");
         return map;
-
 
     }
     //更新类别
